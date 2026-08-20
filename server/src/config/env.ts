@@ -26,7 +26,7 @@ const EnvSchema = z.discriminatedUnion('APP_RUNTIME_MODE', [
     APP_RUNTIME_MODE: z.literal('production'),
     NODE_ENV: z.literal('production').optional(),
     DATABASE_URL: z.string().min(1, { message: 'DATABASE_URL is required in production' }),
-    REDIS_URL: z.string().min(1, { message: 'REDIS_URL is required in production' }),
+    REDIS_URL: z.string().optional(),
   }),
 ]);
 
