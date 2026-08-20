@@ -1,9 +1,9 @@
-import { loadEnv } from './src/config/env';
-import { createApp } from './src/app';
-import { createPool } from './src/db/pool';
-import { runMigrations } from './src/db/migrate';
+import { loadEnv } from '../server/src/config/env';
+import { createApp } from '../server/src/app';
+import { createPool } from '../server/src/db/pool';
+import { runMigrations } from '../server/src/db/migrate';
 import { setPool } from '../db';
-import { seedDefaultCoach } from './src/db/seed';
+import { seedDefaultCoach } from '../server/src/db/seed';
 
 let initialized = false;
 let appInstance: any = null;

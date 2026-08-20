@@ -39,7 +39,7 @@ campaignsRouter.get('/', async (req, res, next) => {
 
     const campaigns = memCampaigns.map((c) => {
       const matchedLeads = leads.filter((l) =>
-        l.sources?.some((s) => s.campaign_name?.toLowerCase().includes(c.name.toLowerCase()) || s.channel.toLowerCase().includes(c.source.toLowerCase()))
+        l.sources?.some((s: any) => s.campaign_name?.toLowerCase().includes(c.name.toLowerCase()) || s.channel.toLowerCase().includes(c.source.toLowerCase()))
       );
       const won = matchedLeads.filter((l) => l.funnel_state === 'WON').length;
       const cLeadsCount = matchedLeads.length;

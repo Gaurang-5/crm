@@ -5,13 +5,13 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "concurrently -k \"npm:dev:api\" \"npm:dev:web\"",
-    "dev:api": "tsx watch api/src/server.ts",
+    "dev:api": "tsx watch server/src/server.ts",
     "dev:web": "vite --config web/vite.config.ts",
     "build": "npm run build:api && npm run build:web",
-    "build:api": "tsc -p api/tsconfig.json",
+    "build:api": "tsc -p server/tsconfig.json",
     "build:web": "vite build --config web/vite.config.ts",
     "test": "npm run test:api && npm run test:web",
-    "test:api": "vitest run api/tests --config api/vitest.config.ts",
+    "test:api": "vitest run server/tests --config server/vitest.config.ts",
     "test:web": "vitest run web/tests --config web/vitest.config.ts",
     "test:db": "tsx scripts/test-db.ts",
     "test:ai": "tsx scripts/test-gemini.ts",
@@ -64,7 +64,7 @@
     "vitest": "^4.1.11"
   },
   "workspaces": [
-    "api",
+    "server",
     "web"
   ]
 }

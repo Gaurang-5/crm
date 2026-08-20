@@ -1,1 +1,1 @@
-export default ['api', 'web'];
+export default ['server', 'web'];

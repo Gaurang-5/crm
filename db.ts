@@ -30,7 +30,7 @@ import {
   AuditEvent,
   ConsumerDataHomevisit,
   BodyAnalysisRecord,
-} from './api/src/shared/types';
+} from './server/src/shared/types';
 import { PRICING_CONFIG } from './constants';
 
 export let useInMemory = process.env.APP_RUNTIME_MODE === 'test' || !process.env.DATABASE_URL;
