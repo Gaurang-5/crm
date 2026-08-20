@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build:web",
+  "outputDirectory": "dist/web",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/index.ts"
+    },
+    {
+      "source": "/((?!api|health).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

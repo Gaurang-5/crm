@@ -208,7 +208,7 @@ legacyRouter.post('/body-analysis', async (req, res, next) => {
     let existingLead = await getLead(data.mobile);
     if (!existingLead) {
       isNewLead = true;
-      existingLead = await upsertLead(data.mobile, data.name, { source: 'Body Analysis', stage: 'NEW', status: 'NEW' });
+      existingLead = await upsertLead(data.mobile, data.name, { interest_topic: 'Body Analysis', funnel_state: 'NEW' } as any);
     }
 
     // 2. Save body analysis record to PostgreSQL / Supabase
@@ -316,7 +316,7 @@ legacyRouter.post('/consumer-homevisit', async (req, res, next) => {
     // Ensure lead exists in database FIRST
     const existingLead = await getLead(phone);
     if (!existingLead) {
-      await upsertLead(phone, data.name, { source: 'Home Visit', stage: 'NEW', status: 'NEW' });
+      await upsertLead(phone, data.name, { interest_topic: 'Home Visit', funnel_state: 'NEW' } as any);
     }
 
     const { saveConsumerHomevisitForm } = await import('../../../db');

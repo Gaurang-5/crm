@@ -35,13 +35,13 @@ searchRouter.get('/search/people', async (req, res, next) => {
     // Match customers first (they have more info)
     for (const c of customers) {
       const phone = c.phone_number || '';
-      const name = (c.display_name || c.name || '').toLowerCase();
+      const name = (c.name || '').toLowerCase();
       if (name.startsWith(q) || phone.includes(q)) {
         if (!seen.has(phone)) {
           seen.add(phone);
           results.push({
             id: c.id,
-            name: c.display_name || c.name || '',
+            name: c.name || '',
             phone,
             type: 'customer',
           });
@@ -57,7 +57,7 @@ searchRouter.get('/search/people', async (req, res, next) => {
         if (!seen.has(phone)) {
           seen.add(phone);
           results.push({
-            id: l.id || phone,
+            id: phone,
             name: l.display_name || '',
             phone,
             type: 'lead',
