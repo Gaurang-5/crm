@@ -1,0 +1,99 @@
+/* Legacy tailwind-like utilities to prevent broken UI on pages not fully rewritten */
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.pt-2 { padding-top: var(--space-2); }
+.pb-2 { padding-bottom: var(--space-2); }
+.m-2 { margin: var(--space-2); }
+.m-4 { margin: var(--space-4); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+
+.space-y-1 > * + * { margin-top: var(--space-1); }
+.space-y-2 > * + * { margin-top: var(--space-2); }
+.space-y-3 > * + * { margin-top: var(--space-3); }
+.space-y-4 > * + * { margin-top: var(--space-4); }
+.space-y-6 > * + * { margin-top: var(--space-6); }
+
+.flex-col { flex-direction: column; }
+.items-start { align-items: flex-start; }
+.justify-end { justify-content: flex-end; }
+.gap-1 { gap: var(--space-1); }
+.gap-1\.5 { gap: 6px; }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lg\:col-span-2 { grid-column: span 2 / span 2; }
+
+.bg-white { background-color: var(--clr-surface-0); }
+.bg-slate-50 { background-color: var(--clr-neutral-bg); }
+.bg-emerald-50 { background-color: var(--clr-success-bg); }
+.bg-rose-50 { background-color: var(--clr-danger-bg); }
+.bg-amber-50 { background-color: var(--clr-warning-bg); }
+.bg-blue-50 { background-color: var(--clr-info-bg); }
+.bg-purple-50 { background-color: var(--clr-purple-bg); }
+.bg-green-50 { background-color: var(--clr-success-bg); }
+
+.border { border: 1px solid var(--clr-border); }
+.border-b { border-bottom: 1px solid var(--clr-border); }
+.border-t { border-top: 1px solid var(--clr-border); }
+.border-slate-200 { border-color: var(--clr-border); }
+.border-slate-300 { border-color: var(--clr-border-strong); }
+.border-rose-200 { border-color: var(--clr-danger-border); }
+.border-amber-200 { border-color: var(--clr-warning-border); }
+.border-blue-200 { border-color: var(--clr-info-border); }
+.border-emerald-200 { border-color: var(--clr-success-border); }
+
+.rounded { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-full { border-radius: var(--radius-full); }
+.shadow-sm { box-shadow: var(--shadow-xs); }
+
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-[10px] { font-size: 10px; }
+.text-[11px] { font-size: 11px; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.text-slate-500 { color: var(--clr-text-secondary); }
+.text-slate-600 { color: var(--clr-text-secondary); }
+.text-slate-700 { color: var(--clr-text-secondary); }
+.text-slate-900 { color: var(--clr-text-primary); }
+.text-emerald-600 { color: var(--clr-success); }
+.text-emerald-700 { color: var(--clr-success); }
+.text-emerald-800 { color: var(--clr-success); }
+.text-rose-600 { color: var(--clr-danger); }
+.text-amber-600 { color: var(--clr-warning); }
+.text-blue-600 { color: var(--clr-info); }
+.text-green-700 { color: var(--clr-brand); }
+.text-white { color: white; }
+
+.hover\:underline:hover { text-decoration: underline; }
+.cursor-pointer { cursor: pointer; }
+.text-center { text-align: center; }
+.w-full { width: 100%; }
+.max-w-md { max-width: 28rem; }
+.min-w-0 { min-width: 0; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+.max-h-72 { max-height: 18rem; }

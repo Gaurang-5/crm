@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 Wellness CRM & Multi-Coach Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- LEFT SIDEBAR NAVIGATION -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>🌿 Wellness CRM</h2>
+      <p>Multi-Coach Platform</p>
+    </div>
+
+    <!-- Coach Switcher -->
+    <div class="coach-switcher-container">
+      <label for="globalCoachSelect">👤 Viewing As:</label>
+      <select id="globalCoachSelect" onchange="handleCoachChange()">
+        <option value="__ALL__">🌐 All Coaches (Senior View)</option>
+        <option value="coach_sarika" selected>Sarika Ji (Senior Coach)</option>
+        <option value="coach_rahul">Rahul Sharma (Coach)</option>
+      </select>
+      <button class="small-btn" onclick="openManageCoachesModal()">⚙️ Manage</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" onclick="switchTab('tab-camp')">
+        📊 Camp Analyses <span id="navBadgeCamp" class="badge">0</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-leads')">
+        👥 Leads Pipeline <span id="navBadgeLeads" class="badge">0</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-visits')">
+        🏠 1st Home Visits <span id="navBadgeVisits" class="badge">0</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-profit')">
+        💰 Cash Profit Sheet <span id="navBadgeProfit" class="badge">0</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-flavors')">
+        📖 Flavors & Rules
+      </button>
+      <button class="nav-btn" onclick="switchTab('tab-settings')">
+        ⚙️ Settings
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="simulate-btn" onclick="openModal('modalSimulate')">📱 WhatsApp Simulator</button>
+      <div class="status-indicator">
+        <span class="dot green"></span> System Online
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="main-content">
+    
+    <!-- HEADER -->
+    <header class="top-header">
+      <div class="header-left">
+        <h1 id="pageTitle">📊 Camp Body Analyses</h1>
+        <p id="pageSubtitle">Manage physical camp scans and generate AI health reports.</p>
+      </div>
+    </header>
+
+    <!-- TAB 1: CAMP ANALYSES -->
+    <div id="tab-camp" class="tab-pane active">
+      <div class="metrics-grid" id="campMetrics">
+        <!-- Populated by JS -->
+      </div>
+      
+      <div class="table-card">
+        <div class="table-header">
+          <h3>Recent Body Analyses</h3>
+          <div class="table-actions">
+            <input type="text" id="searchCamp" placeholder="Search by Name or Phone..." onkeyup="loadBodyAnalyses()">
+            <select id="filterCamp" onchange="loadBodyAnalyses()">
+              <option value="ALL">All Records</option>
+              <option value="VISCERAL_HIGH">⚠️ High Visceral Fat (>8)</option>
+              <option value="OVERWEIGHT">⚠️ Overweight/Obese (BMI >25)</option>
+            </select>
+            <button class="primary-btn" onclick="openBodyAnalysisModal()">+ ➕ New Camp Analysis</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="campTable">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Date</th>
+                <th>Coach</th>
+                <th>Customer</th>
+                <th>Age/Gender</th>
+                <th>Weight (Target)</th>
+                <th>BMI</th>
+                <th>Visceral Fat</th>
+                <th>Body Fat %</th>
+                <th>Muscle %</th>
+                <th>Body Age / BMR</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: LEADS & FUNNEL -->
+    <div id="tab-leads" class="tab-pane">
+      <div class="metrics-grid" id="leadMetrics">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <h3>WhatsApp Leads Funnel</h3>
+          <div class="table-actions">
+            <input type="text" id="searchLeads" placeholder="Search Leads..." onkeyup="loadLeads()">
+            <select id="filterFunnelState" onchange="loadLeads()">
+              <option value="ALL">All Stages</option>
+              <option value="NEW">New / Idle</option>
+              <option value="ANALYSIS_DONE">Analysis Done</option>
+              <option value="INVITED_TO_ZOOM">Invited to Zoom</option>
+              <option value="ATTENDED_ZOOM">Attended Zoom</option>
+              <option value="PLAN_SELECTED">Plan Selected</option>
+              <option value="ORDER_PLACED">Order Placed</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="leadsTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Coach</th>
+                <th>Lead</th>
+                <th>Funnel Stage</th>
+                <th>Next Action / Follow-up</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: 1ST HOME VISITS -->
+    <div id="tab-visits" class="tab-pane">
+      <div class="metrics-grid" id="visitMetrics">
+        <!-- Populated by JS -->
+      </div>
+      
+      <div class="table-card">
+        <div class="table-header">
+          <h3>Customer Intake & Routines</h3>
+          <div class="table-actions">
+            <input type="text" id="searchVisits" placeholder="Search..." onkeyup="loadHomeVisits()">
+            <button class="primary-btn" onclick="openHomeVisitModal()">+ ➕ New 1st Home Visit</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="visitsTable">
+            <thead>
+              <tr>
+                <th>Visit #</th>
+                <th>Date</th>
+                <th>Coach</th>
+                <th>Member</th>
+                <th>Routine</th>
+                <th>Purpose / Challenges</th>
+                <th>Meal Timings</th>
+                <th>Sleep & Water</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: PROFIT SHEET -->
+    <div id="tab-profit" class="tab-pane">
+      <div class="metrics-grid" id="profitMetrics">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <h3>Senior Coach Landscape Sheet</h3>
+          <div class="table-actions">
+            <select id="sheetSelector" onchange="loadProfitSheetEntries()"></select>
+            <button class="secondary-btn" onclick="exportProfitSheetPDF()">📄 Export Senior Coach PDF</button>
+            <button class="primary-btn" onclick="openProfitEntryModal()">+ Add Manual Entry</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="profitTable">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Payment Date</th>
+                <th>Coach</th>
+                <th>Customer / Mobile</th>
+                <th>Membership / Type</th>
+                <th>Amount Received</th>
+                <th>Coach Amount</th>
+                <th>Cost of Kit</th>
+                <th>Cash Profit (Net)</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: FLAVORS & RULES -->
+    <div id="tab-flavors" class="tab-pane">
+      <div class="grid-2col">
+        <div class="table-card">
+          <div class="table-header">
+            <h3>Formula 1 & Afresh Flavors</h3>
+          </div>
+          <div class="p-4" id="flavorCatalog">
+             <!-- Populated by JS -->
+          </div>
+        </div>
+        
+        <div class="table-card">
+          <div class="table-header">
+            <h3>18 Golden Rules (Hindi)</h3>
+            <button class="secondary-btn small-btn" onclick="copyGoldenRules()">📋 Copy Rules</button>
+          </div>
+          <div class="p-4">
+             <pre class="golden-rules" id="goldenRulesText"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: SETTINGS -->
+    <div id="tab-settings" class="tab-pane">
+      <div class="table-card p-6">
+        <h3>Platform Settings</h3>
+        <p>Use the Manage Coaches button on the left sidebar to add/edit coaches.</p>
+        <p>Database mode: <strong class="text-green-600">Multi-Coach Scale Ready</strong>.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modalManageCoaches">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>👥 Manage Coaches</h2>
+        <button class="close-btn" onclick="closeModal('modalManageCoaches')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="formAddCoach" onsubmit="submitAddCoach(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Coach Full Name</label>
+              <input type="text" id="newCoachName" required>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number (919...)</label>
+              <input type="text" id="newCoachPhone" required>
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select id="newCoachRole" required>
+                <option value="COACH">Coach</option>
+                <option value="SENIOR_COACH">Senior Coach</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Club Name</label>
+              <input type="text" id="newCoachClub" value="Wellness Club" required>
+            </div>
+            <div class="form-group">
+              <label>Zoom Session Link</label>
+              <input type="text" id="newCoachZoom" placeholder="https://zoom.us/j/..." required>
+            </div>
+            <div class="form-group">
+              <label>Session Timing</label>
+              <input type="text" id="newCoachTime" value="7:30 AM - 8:30 AM Daily" required>
+            </div>
+          </div>
+          <button type="submit" class="primary-btn w-full mt-4">Add / Update Coach</button>
+        </form>
+        <hr class="my-4">
+        <h4>Registered Coaches</h4>
+        <ul id="coachesList" class="settings-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalBodyAnalysis">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📝 New Camp Body Analysis Entry</h2>
+        <button class="close-btn" onclick="closeModal('modalBodyAnalysis')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="formBodyAnalysis" onsubmit="submitBodyAnalysis(event)">
+          <div class="form-grid">
+            <!-- Basic Info -->
+            <div class="form-group">
+              <label>Customer Name *</label>
+              <input type="text" id="ba_name" required>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number (919...) *</label>
+              <input type="text" id="ba_phone" required>
+            </div>
+            <div class="form-group">
+              <label>Age (Yrs) *</label>
+              <input type="number" id="ba_age" required oninput="calculateLiveMetrics()">
+            </div>
+            <div class="form-group">
+              <label>Gender *</label>
+              <select id="ba_gender" required onchange="calculateLiveMetrics()">
+                <option value="F">Female</option>
+                <option value="M">Male</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Height (cm) *</label>
+              <input type="number" id="ba_height" required oninput="calculateLiveMetrics()">
+            </div>
+            <div class="form-group">
+              <label>Current Weight (kg) *</label>
+              <input type="number" step="0.1" id="ba_weight" required oninput="calculateLiveMetrics()">
+            </div>
+            
+            <!-- Omron Metrics -->
+            <div class="form-group">
+              <label>Subcutaneous Fat %</label>
+              <input type="number" step="0.1" id="ba_subfat">
+            </div>
+            <div class="form-group">
+              <label>Visceral Fat Level</label>
+              <input type="number" step="0.1" id="ba_visceral" oninput="calculateLiveMetrics()">
+            </div>
+            <div class="form-group">
+              <label>Skeletal Muscle %</label>
+              <input type="number" step="0.1" id="ba_muscle">
+            </div>
+            <div class="form-group">
+              <label>Body Fat %</label>
+              <input type="number" step="0.1" id="ba_bodyfat">
+            </div>
+            <div class="form-group">
+              <label>Body Age (Yrs)</label>
+              <input type="number" id="ba_bodyage" oninput="calculateLiveMetrics()">
+            </div>
+            <div class="form-group">
+              <label>BMR (Resting Metabolism)</label>
+              <input type="number" id="ba_bmr">
+            </div>
+          </div>
+          
+          <div class="live-preview-box mt-4" id="baLivePreview">
+             <strong>⚡ Live Calculator:</strong> Fill height & weight to see target metrics.
+          </div>
+
+          <div class="form-group mt-4">
+            <label class="checkbox-label">
+              <input type="checkbox" id="ba_sendWhatsapp" checked>
+              Generate Gemini AI Hindi Report & Send via WhatsApp immediately
+            </label>
+          </div>
+          <button type="submit" class="primary-btn w-full mt-4" id="btnSubmitBA">Save & Generate Report</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalViewReport">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>👁️ AI Health Report (Hindi)</h2>
+        <button class="close-btn" onclick="closeModal('modalViewReport')">×</button>
+      </div>
+      <div class="modal-body">
+        <pre class="hindi-report" id="reportText"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalHomeVisit">
+    <!-- Shortened for brevity, similar structure to previous, but wider layout -->
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h2>🏠 1st Home Visit Intake</h2>
+        <button class="close-btn" onclick="closeModal('modalHomeVisit')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="formHomeVisit" onsubmit="submitHomeVisit(event)">
+          <div class="form-grid">
+             <div class="form-group">
+              <label>Phone Number (from Leads)</label>
+              <input type="text" id="hv_phone" required>
+             </div>
+             <div class="form-group">
+              <label>Member Name</label>
+              <input type="text" id="hv_name" required>
+             </div>
+             <div class="form-group">
+              <label>Routine Type</label>
+              <select id="hv_routine" required>
+                <option value="Basic">Basic Routine (1 Shake)</option>
+                <option value="Elite">Elite / Pro Routine (2 Shakes)</option>
+              </select>
+             </div>
+             <div class="form-group">
+              <label>Health Challenges</label>
+              <input type="text" id="hv_challenges">
+             </div>
+             <div class="form-group">
+              <label>Wake-up Time</label>
+              <input type="time" id="hv_wake">
+             </div>
+             <div class="form-group">
+              <label>Sleeping Time</label>
+              <input type="time" id="hv_sleep">
+             </div>
+          </div>
+          <div class="form-group mt-4">
+            <label class="checkbox-label">
+              <input type="checkbox" id="hv_sendWhatsapp" checked>
+              Send customized Daily Routine (Pages 2/3) & 18 Golden Rules via WhatsApp
+            </label>
+          </div>
+          <button type="submit" class="primary-btn w-full mt-4" id="btnSubmitHV">Save Intake & Assign Routine</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalProfitEntry">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>💰 Add Profit Entry</h2>
+        <button class="close-btn" onclick="closeModal('modalProfitEntry')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="formProfitEntry" onsubmit="submitProfitEntry(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" id="pe_phone">
+            </div>
+            <div class="form-group">
+              <label>Member Name</label>
+              <input type="text" id="pe_name" required>
+            </div>
+            <div class="form-group">
+              <label>Membership</label>
+              <select id="pe_membership" onchange="autoFillPricing()" required>
+                <option value="Basic">Basic</option>
+                <option value="Elite">Elite</option>
+                <option value="Retail">Retail / Open</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Transaction Type</label>
+              <select id="pe_type" onchange="autoFillPricing()" required>
+                <option value="New">New Order</option>
+                <option value="Renewal">Renewal</option>
+                <option value="Upgrade">Upgrade</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Amount Received (₹)</label>
+              <input type="number" id="pe_received" required oninput="calcProfit()">
+            </div>
+            <div class="form-group">
+              <label>Coach Amount (₹)</label>
+              <input type="number" id="pe_coachamt" required oninput="calcProfit()">
+            </div>
+            <div class="form-group">
+              <label>Cost of Kit (₹)</label>
+              <input type="number" id="pe_kitcost" required oninput="calcProfit()">
+            </div>
+            <div class="form-group">
+              <label>Cash Profit (₹) [Auto]</label>
+              <input type="number" id="pe_profit" readonly style="background: #ecfdf5; font-weight: 700;">
+            </div>
+          </div>
+          <button type="submit" class="primary-btn w-full mt-4" id="btnSubmitPE">Save Entry</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalSimulate">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📱 WhatsApp Webhook Simulator</h2>
+        <button class="close-btn" onclick="closeModal('modalSimulate')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="sim-info">
+           Simulate an inbound message from a lead. Watch the magic happen in the terminal and UI!
+        </div>
+        <form onsubmit="submitSimulate(event)">
+          <div class="form-group">
+            <label>Customer Phone (919...)</label>
+            <input type="text" id="sim_phone" value="919999999999" required>
+          </div>
+          <div class="form-group">
+            <label>Message Content</label>
+            <input type="text" id="sim_text" placeholder="e.g. YES, 1, Kulfi" required>
+          </div>
+          <div class="quick-replies">
+            <span onclick="document.getElementById('sim_text').value='YES'">"YES"</span>
+            <span onclick="document.getElementById('sim_text').value='1'">"1"</span>
+            <span onclick="document.getElementById('sim_text').value='Kulfi, Mango'">"Kulfi, Mango"</span>
+          </div>
+          <button type="submit" class="primary-btn w-full mt-4">Simulate Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

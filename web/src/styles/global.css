@@ -1,0 +1,10 @@
+/* 
+  DEPRECATED: This file is replaced by the design/ directory.
+  This shim is kept so any legacy test imports don't break.
+  All actual styles are in web/src/design/
+*/
+@import '../design/tokens.css';
+@import '../design/base.css';
+@import '../design/components.css';
+@import '../design/animations.css';
+@import '../design/legacy.css';
