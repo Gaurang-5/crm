@@ -2,6 +2,12 @@
   "version": 2,
   "buildCommand": "npm run build:web",
   "outputDirectory": "dist/web",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "api/src/db/migrations/**",
+      "maxDuration": 15
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",

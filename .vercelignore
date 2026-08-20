@@ -1,0 +1,10 @@
+api/tests/
+web/tests/
+scripts/
+docs/
+*.test.ts
+*.test.tsx
+vitest.workspace.*
+playwright*
+.env*
+!.env.example
