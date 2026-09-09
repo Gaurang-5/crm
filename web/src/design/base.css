@@ -205,3 +205,31 @@ input, select, textarea {
     padding: var(--space-3) var(--space-3);
   }
 }
+
+/* Phone-first CRM shell */
+@media (max-width: 1023px) {
+  .mobile-header {
+    position: sticky !important;
+    top: 0;
+    min-height: 58px;
+  }
+  .page-main { padding-bottom: 94px; }
+}
+@media (max-width: 640px) {
+  .page-main { padding: 14px 14px 96px; }
+  .page-section { gap: 18px; }
+  .page-header { gap: 10px !important; }
+  .page-header-row { flex-direction: column; align-items: stretch !important; gap: 14px !important; }
+  .page-header-actions,
+  .page-header-actions > div { width: 100%; flex-wrap: wrap; }
+  .page-header-actions .btn { flex: 1 1 140px; }
+  .text-heading { font-size: 24px; }
+  .page-section [style*="grid-template-columns: 1fr 1fr"],
+  .page-section [style*="grid-template-columns: repeat(3"],
+  .page-section [style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
+  .page-section [style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .page-section .crm-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .md\:grid-cols-2,
+  .lg\:grid-cols-2,
+  .lg\:grid-cols-3 { grid-template-columns: 1fr !important; }
+}

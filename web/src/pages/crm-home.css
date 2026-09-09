@@ -1,0 +1,29 @@
+.crm-home { max-width: 1080px; margin: 0 auto; }
+.crm-home-heading { max-width: 690px; margin: 34px 0 42px; }
+.crm-home-heading > p { margin: 0 0 14px; color: var(--clr-brand); font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.crm-home-heading h1 { margin: 0; font: 600 clamp(38px, 5vw, 60px)/1 "Playfair Display", Georgia, serif; letter-spacing: -.045em; }
+.crm-home-heading > span { display: block; margin-top: 18px; color: var(--clr-text-secondary); font-size: 14px; }
+.primary-task-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.primary-task-card { min-height: 330px; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; border: 1px solid rgba(255,255,255,.95); border-radius: 26px; background: rgba(255,255,255,.82); box-shadow: 0 18px 48px rgba(0,0,0,.055), inset 0 1px 0 #fff; }
+.primary-task-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.primary-task-number { color: var(--clr-text-tertiary); font-size: 10px; letter-spacing: .12em; }
+.primary-task-icon { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 50%; background: var(--clr-brand-light); color: var(--clr-brand); }
+.primary-task-card h2 { margin: 0 0 12px; font: 600 29px/1 "Playfair Display", Georgia, serif; letter-spacing: -.035em; }
+.primary-task-card p { margin: 0; color: var(--clr-text-secondary); font-size: 13px; line-height: 1.65; }
+.primary-task-card > a { display: flex; min-height: 46px; align-items: center; justify-content: space-between; padding: 0 18px; border-radius: 999px; background: #1d1d1f; color: white; font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+.primary-task-card > a span { color: #58a6ff; font-size: 18px; }
+.crm-home-secondary { margin-top: 30px; padding: 24px; border-top: 1px solid var(--clr-border); }
+.crm-home-secondary h2 { margin: 0 0 16px; font-size: 13px; }
+.crm-home-secondary > div { display: flex; flex-wrap: wrap; gap: 10px; }
+.crm-home-secondary a { min-height: 42px; display: inline-flex; align-items: center; padding: 0 15px; border: 1px solid var(--clr-border-strong); border-radius: 999px; background: white; color: var(--clr-text-secondary); font-size: 12px; }
+@media (max-width: 900px) { .primary-task-grid { grid-template-columns: 1fr; } .primary-task-card { min-height: 240px; } }
+@media (max-width: 640px) {
+  .crm-home-heading { margin: 18px 0 28px; }
+  .crm-home-heading h1 { font-size: 40px; }
+  .primary-task-grid { gap: 13px; }
+  .primary-task-card { min-height: 230px; padding: 20px; border-radius: 22px; }
+  .primary-task-card h2 { font-size: 27px; }
+  .crm-home-secondary { margin-top: 20px; padding: 22px 0 90px; }
+  .crm-home-secondary > div { display: grid; }
+  .crm-home-secondary a { justify-content: center; }
+}

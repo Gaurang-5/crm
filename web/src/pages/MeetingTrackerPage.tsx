@@ -172,8 +172,8 @@ export function MeetingTrackerPage() {
     <div className="tracker">
       <header className="tracker-header">
         <div>
-          <h1>Meeting Tracker</h1>
-          <p>One invitation link. A clear view of every step.</p>
+          <h1>Zoom Invitations</h1>
+          <p>Paste the meeting message, share one link, and see who responded.</p>
         </div>
         <div className="tracker-controls">
           <a
@@ -200,19 +200,18 @@ export function MeetingTrackerPage() {
         </div>
       )}
       <section className="tracker-panel">
-        <h2>Your session</h2>
+        <h2>Meeting details</h2>
         <p>
           Share <a href={publicUrl}>{publicUrl}</a> in your WhatsApp groups.
-          Change the Zoom destination here whenever needed; it stays active
-          until you replace or pause it.
+          Paste the message below whenever the meeting changes.
         </p>
         <p className="tracker-link">
           <strong>
-            {active ? "Active Zoom destination" : "No active Zoom destination"}
+            {active ? "Current Zoom meeting" : "No meeting published yet"}
           </strong>
           <br />
           {active?.destination_url ||
-            "Add a Zoom link below to welcome guests."}
+            "Paste a WhatsApp meeting message below to begin."}
         </p>
         <div className="message-parser">
           <label>
@@ -373,12 +372,11 @@ export function MeetingTrackerPage() {
           </div>
         ))}
       </section>
-      <section className="tracker-panel">
-        <h2>Visitor activity</h2>
+      <section className="tracker-panel tracker-visitor-panel">
+        <h2>Who responded</h2>
         <p>
-          “Opened Zoom” records the final button click. It does not confirm
-          attendance inside Zoom. Anonymous visitors remain unnamed until they
-          enter details.
+          See who opened the invitation, shared their details, and pressed the
+          final Zoom button.
         </p>
         <div className="tracker-table-wrap">
           <table>
@@ -396,16 +394,16 @@ export function MeetingTrackerPage() {
               {!loading &&
                 visits.map((v) => (
                   <tr key={v.id}>
-                    <td>{v.draft_name || "Anonymous visitor"}</td>
-                    <td>{v.draft_phone || "Not provided"}</td>
-                    <td>
+                    <td data-label="Visitor">{v.draft_name || "Anonymous visitor"}</td>
+                    <td data-label="Phone">{v.draft_phone || "Not provided"}</td>
+                    <td data-label="Progress">
                       <span className="tracker-status">
                         {labels[v.status] || v.status}
                       </span>
                     </td>
-                    <td>{time(v.first_seen_at)}</td>
-                    <td>{v.source}</td>
-                    <td>
+                    <td data-label="First visit">{time(v.first_seen_at)}</td>
+                    <td data-label="Source">{v.source}</td>
+                    <td data-label="Details">
                       <button
                         className="tracker-button"
                         onClick={() => inspect(v.id)}

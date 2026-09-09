@@ -49,10 +49,10 @@ export function ConsumerHomevisitPage() {
   ).length;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+    <div className="crm-workflow-page" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <PageHeader
-        title="Consumer Data (Home Visits)"
-        subtitle="Comprehensive client lifestyle evaluations, dietary habits and wellness logs"
+        title="Home Visits"
+        subtitle="Add a visit or find a person you visited."
         action={
           <button
             onClick={() => setShowModal(true)}
@@ -66,7 +66,7 @@ export function ConsumerHomevisitPage() {
       />
 
       {/* Metrics Row (Single Line Compact Grid) */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'var(--space-3)' }}>
+      <div className="crm-stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'var(--space-3)' }}>
         <StatCard
           icon={<Icons.HomeVisit size={18} />}
           label="Total Home Visits"
@@ -84,7 +84,7 @@ export function ConsumerHomevisitPage() {
       </div>
 
       {/* Search & Filter Toolbar */}
-      <div className="card" style={{ padding: 'var(--space-3)' }}>
+      <div className="card crm-toolbar" style={{ padding: 'var(--space-3)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)' }}>
           <div style={{ position: 'relative', flex: 1 }}>
             <span style={{
@@ -116,7 +116,7 @@ export function ConsumerHomevisitPage() {
       </div>
 
       {/* Evaluations Data Table */}
-      <div className="table-container">
+      <div className="table-container responsive-card-table">
         {loading ? (
           <div style={{ padding: 'var(--space-12)' }}>
             <LoadingSpinner message="Loading homevisit evaluations..." />
@@ -150,10 +150,10 @@ export function ConsumerHomevisitPage() {
             <tbody>
               {filtered.map((item, idx) => (
                 <tr key={item.id || idx}>
-                  <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', whiteSpace: 'nowrap' }}>
+                  <td data-label="Date" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', whiteSpace: 'nowrap' }}>
                     {item.date || (item.created_at ? item.created_at.split('T')[0] : '—')}
                   </td>
-                  <td>
+                  <td data-label="Person">
                     <div style={{ fontWeight: 600, color: 'var(--clr-text-primary)' }}>
                       {item.name || 'Unknown'}
                     </div>
@@ -161,12 +161,12 @@ export function ConsumerHomevisitPage() {
                       {item.phone_number || '—'}
                     </div>
                   </td>
-                  <td>
+                  <td data-label="Age / Height">
                     <span style={{ fontSize: 'var(--font-size-sm)' }}>
                       {item.age ? `${item.age} yrs` : '—'} / {item.height || '—'}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="Weight / Target">
                     <div style={{ fontWeight: 600 }}>{item.weight ? `${item.weight} kg` : '—'}</div>
                     {item.ideal_weight && (
                       <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-brand)' }}>
@@ -174,17 +174,17 @@ export function ConsumerHomevisitPage() {
                       </div>
                     )}
                   </td>
-                  <td>
+                  <td data-label="Goal">
                     <div style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: 'var(--font-size-sm)' }}>
                       {item.purpose_of_joining || '—'}
                     </div>
                   </td>
-                  <td>
+                  <td data-label="Health">
                     <div style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: 'var(--font-size-sm)', color: '#dc2626' }}>
                       {item.health_challenges || '—'}
                     </div>
                   </td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td data-label="Actions" style={{ textAlign: 'right' }}>
                     <div style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
                       <button
                         type="button"

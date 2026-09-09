@@ -1,223 +1,63 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { navItems } from './Sidebar';
-import { Icons } from '../ui/Icons';
+import { NavLink } from "react-router-dom";
+import { Icons } from "../ui/Icons";
+import "./mobile-nav.css";
 
 interface MobileNavProps {
   open: boolean;
   coach: { name: string; email: string };
   onClose: () => void;
+  onOpen: () => void;
   onLogout: () => void;
 }
 
-export function MobileNav({ open, coach, onClose, onLogout }: MobileNavProps) {
-  if (!open) return null;
+const moreTools = [
+  { path: "/crm/analyses", label: "Body Analysis", icon: <Icons.BodyAnalysis /> },
+  { path: "/crm/homevisit", label: "Home Visits", icon: <Icons.HomeVisit /> },
+  { path: "/crm/meetings", label: "Zoom Invitations", icon: <Icons.Campaigns /> },
+  { path: "/crm/followups", label: "Follow-ups", icon: <Icons.FollowUps /> },
+  { path: "/crm/customers", label: "Customers", icon: <Icons.Customers /> },
+  { path: "/crm/pipeline", label: "Interest Board", icon: <Icons.Pipeline /> },
+  { path: "/crm/orders", label: "Orders & Payments", icon: <Icons.Orders /> },
+  { path: "/crm/revenue", label: "Money", icon: <Icons.Revenue /> },
+  { path: "/crm/campaigns", label: "Group Messages", icon: <Icons.Message /> },
+  { path: "/crm/reports", label: "Reports", icon: <Icons.Reports /> },
+  { path: "/crm/settings", label: "Settings", icon: <Icons.Settings /> },
+];
 
-  const initial = coach.name ? coach.name.charAt(0).toUpperCase() : 'C';
-
+export function MobileNav({ open, coach, onClose, onOpen, onLogout }: MobileNavProps) {
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Navigation"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 'var(--z-overlay)' as any,
-        display: 'flex',
-      }}
-    >
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'var(--clr-overlay)',
-          backdropFilter: 'var(--blur-sm)',
-          WebkitBackdropFilter: 'var(--blur-sm)',
-        }}
-      />
-
-      {/* Drawer panel */}
-      <div
-        style={{
-          position: 'relative',
-          width: 288,
-          maxWidth: '85vw',
-          height: '100%',
-          background: 'var(--clr-surface-0)',
-          boxShadow: 'var(--shadow-modal)',
-          display: 'flex',
-          flexDirection: 'column',
-          animation: 'drawer-in var(--dur-slow) var(--ease-spring)',
-        }}
-      >
-        {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: 'var(--space-4) var(--space-5)',
-            borderBottom: '1px solid var(--clr-border)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-            <span
-              style={{
-                fontWeight: 800,
-                fontSize: 'var(--font-size-base)',
-                color: 'var(--clr-brand)',
-                letterSpacing: 'var(--tracking-heading)',
-                textTransform: 'uppercase',
-              }}
-            >
-              Wellness CRM
-            </span>
-          </div>
-          <button
-            onClick={onClose}
-            aria-label="Close navigation"
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 'var(--radius-full)',
-              border: '1px solid var(--clr-border)',
-              background: 'var(--clr-neutral-bg)',
-              color: 'var(--clr-text-secondary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.875rem',
-              cursor: 'pointer',
-            }}
-          >
-            <Icons.Close size={16} />
-          </button>
+    <>
+      {open && (
+        <div className="mobile-more-overlay" role="dialog" aria-modal="true" aria-label="More tools">
+          <button className="mobile-more-backdrop" onClick={onClose} aria-label="Close more tools" />
+          <section className="mobile-more-sheet">
+            <header>
+              <div>
+                <span>All tools</span>
+                <h2>What do you need?</h2>
+              </div>
+              <button className="mobile-sheet-close" onClick={onClose} aria-label="Close navigation"><Icons.Close /></button>
+            </header>
+            <nav className="mobile-tool-grid" aria-label="All CRM tools">
+              {moreTools.map((item) => (
+                <NavLink key={item.path} to={item.path} onClick={onClose} aria-label={item.label}>
+                  <span>{item.icon}</span>{item.label}
+                </NavLink>
+              ))}
+            </nav>
+            <footer>
+              <div><strong>{coach.name}</strong><span>{coach.email}</span></div>
+              <button onClick={onLogout}><Icons.Logout /> Sign out</button>
+            </footer>
+          </section>
         </div>
-
-        {/* Nav Links */}
-        <nav
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            padding: 'var(--space-3) var(--space-3)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--space-1)',
-          }}
-        >
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              end={item.end}
-              onClick={onClose}
-              style={({ isActive }) => ({
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-3)',
-                padding: 'var(--space-3) var(--space-4)',
-                borderRadius: 'var(--radius-md)',
-                fontSize: 'var(--font-size-base)',
-                fontWeight: isActive ? 600 : 500,
-                textDecoration: 'none',
-                minHeight: 48,
-                background: isActive ? 'var(--clr-brand)' : 'transparent',
-                color: isActive ? '#ffffff' : 'var(--clr-text-secondary)',
-                transition: 'all var(--dur-fast) var(--ease-out)',
-              })}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {item.icon}
-              </span>
-              <span>{item.label}</span>
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Coach Footer */}
-        <div
-          style={{
-            borderTop: '1px solid var(--clr-border)',
-            padding: 'var(--space-4) var(--space-5)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--space-3)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--clr-neutral-bg)',
-                border: '1px solid var(--clr-border)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 700,
-                fontSize: 'var(--font-size-base)',
-                color: 'var(--clr-brand)',
-                flexShrink: 0,
-              }}
-            >
-              {initial}
-            </div>
-            <div style={{ minWidth: 0 }}>
-              <p
-                style={{
-                  fontSize: 'var(--font-size-sm)',
-                  fontWeight: 600,
-                  color: 'var(--clr-text-primary)',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  margin: 0,
-                }}
-              >
-                {coach.name}
-              </p>
-              <p
-                style={{
-                  fontSize: 'var(--font-size-xs)',
-                  color: 'var(--clr-text-tertiary)',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  margin: 0,
-                }}
-              >
-                {coach.email}
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={onLogout}
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 'var(--space-2)',
-              padding: 'var(--space-3) var(--space-4)',
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 600,
-              color: 'var(--clr-text-secondary)',
-              background: 'var(--clr-neutral-bg)',
-              border: '1px solid var(--clr-border)',
-              borderRadius: 'var(--radius-md)',
-              cursor: 'pointer',
-              transition: 'all var(--dur-fast) var(--ease-out)',
-            }}
-          >
-            <Icons.Logout size={16} /> Sign Out
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
+      <nav className="mobile-bottom-nav" aria-label="Main navigation">
+        <NavLink to="/crm" end aria-label="Home"><Icons.HomeVisit /><span>Home</span></NavLink>
+        <NavLink to="/crm/leads" aria-label="People"><Icons.Leads /><span>People</span></NavLink>
+        <NavLink to="/crm/today" aria-label="Activity"><Icons.Today /><span>Activity</span></NavLink>
+        <button onClick={onOpen} aria-label="More"><Icons.Menu /><span>More</span></button>
+      </nav>
+    </>
   );
 }

@@ -5,7 +5,6 @@ import { Sidebar } from './Sidebar';
 import { MobileNav } from './MobileNav';
 import { useToast } from '../../hooks/useToast';
 import { Toast } from '../../hooks/useToast';
-import { Icons } from '../ui/Icons';
 
 export function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -67,24 +66,6 @@ export function Layout() {
           `}</style>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open navigation menu"
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--clr-border)',
-                background: 'var(--clr-neutral-bg)',
-                color: 'var(--clr-text-secondary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              <Icons.Menu size={18} />
-            </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
               <span
                 style={{
@@ -95,7 +76,7 @@ export function Layout() {
                   letterSpacing: 'var(--tracking-heading)',
                 }}
               >
-                Wellness CRM
+              Lifestyle Mantra
               </span>
             </div>
           </div>
@@ -124,6 +105,7 @@ export function Layout() {
           open={mobileMenuOpen}
           coach={coach}
           onClose={() => setMobileMenuOpen(false)}
+          onOpen={() => setMobileMenuOpen(true)}
           onLogout={handleLogout}
         />
 

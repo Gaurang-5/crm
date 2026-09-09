@@ -716,3 +716,37 @@ tbody tr:hover td {
 .toast--success { background: #064e3b; }
 .toast--danger  { background: #7f1d1d; }
 .toast--warning { background: #78350f; }
+
+/* Shared phone controls and data views */
+@media (max-width: 640px) {
+  .card, .card-glass { padding: 16px; border-radius: 16px; }
+  .btn { min-height: 44px; height: auto; padding: 10px 14px; }
+  .btn-sm { min-height: 40px; }
+  .form-input, .form-select { min-height: 46px; height: 46px; font-size: 16px; }
+  .form-textarea { min-height: 110px; font-size: 16px; }
+  .crm-toolbar > div { flex-direction: column; align-items: stretch !important; }
+  .crm-toolbar > div > * { width: 100%; }
+  .crm-toolbar .btn { width: 100%; }
+  .stat-card { min-height: 104px; padding: 13px; }
+  .stat-value { font-size: 22px; }
+  .stat-label { font-size: 9px; }
+  .section-header { align-items: flex-start; flex-wrap: wrap; }
+  .list-item { align-items: flex-start; flex-wrap: wrap; padding: 14px; }
+  .list-item > div:last-child { max-width: 100%; flex-wrap: wrap; }
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal-content { width: 100%; max-width: none; max-height: 94dvh; padding: 20px 16px calc(22px + env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; }
+  .modal-footer { position: sticky; bottom: 0; margin-inline: -16px; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); background: rgba(255,255,255,.95); backdrop-filter: blur(18px); }
+  .modal-footer .btn { flex: 1; }
+  .toast-container { left: 12px; right: 12px; bottom: 88px; }
+  .toast { width: 100%; max-width: none; }
+
+  .responsive-card-table { overflow: visible; border: 0; background: transparent; box-shadow: none; }
+  .responsive-card-table table,
+  .responsive-card-table tbody { display: block; }
+  .responsive-card-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  .responsive-card-table tr { display: block; margin-bottom: 12px; padding: 8px 14px; border: 1px solid var(--clr-border); border-radius: 16px; background: white; box-shadow: var(--shadow-xs); }
+  .responsive-card-table tbody td { display: flex; min-width: 0; align-items: flex-start; justify-content: space-between; gap: 18px; padding: 10px 0; border-bottom: 1px solid var(--clr-border); text-align: right !important; white-space: normal !important; }
+  .responsive-card-table tbody td:last-child { border-bottom: 0; }
+  .responsive-card-table tbody td::before { content: attr(data-label); flex: 0 0 88px; color: var(--clr-text-tertiary); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
+  .responsive-card-table tbody td > div { min-width: 0; max-width: 100% !important; white-space: normal !important; }
+}

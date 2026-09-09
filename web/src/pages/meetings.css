@@ -330,3 +330,30 @@
     padding: 18px;
   }
 }
+
+@media (max-width: 640px) {
+  .tracker { padding: 2px 0 88px; }
+  .tracker-header { gap: 14px; margin-bottom: 18px; }
+  .tracker-header h1 { font: 600 34px/1 "Playfair Display", Georgia, serif; letter-spacing: -.035em; }
+  .tracker-header .tracker-controls,
+  .tracker-controls { width: 100%; align-items: stretch; }
+  .tracker-controls > * { flex: 1 1 100%; }
+  .tracker-button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .tracker-panel { margin-bottom: 14px; padding: 17px; border-radius: 17px; }
+  .message-parser { margin: 18px 0; padding: 14px; border-radius: 15px; }
+  .tracker-session-form { gap: 12px; }
+  .tracker input, .tracker select, .tracker textarea { min-height: 46px; font-size: 16px; }
+  .tracker textarea { min-height: 165px; }
+  .tracker-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 14px; }
+  .tracker-metrics div { padding: 15px; }
+  .tracker-metrics strong { font-size: 24px; }
+  .tracker-table-wrap { overflow: visible; }
+  .tracker-table-wrap table,
+  .tracker-table-wrap tbody { display: block; }
+  .tracker-table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  .tracker-table-wrap tr { display: block; margin: 12px 0; padding: 8px 14px; border: 1px solid var(--clr-border); border-radius: 15px; background: white; }
+  .tracker-table-wrap td { display: flex; justify-content: space-between; gap: 15px; padding: 10px 0; border-bottom: 1px solid var(--clr-border); text-align: right; white-space: normal; }
+  .tracker-table-wrap td:last-child { border-bottom: 0; }
+  .tracker-table-wrap td::before { content: attr(data-label); color: var(--clr-text-tertiary); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
+  .tracker-drawer { padding: 22px 17px calc(22px + env(safe-area-inset-bottom)); }
+}

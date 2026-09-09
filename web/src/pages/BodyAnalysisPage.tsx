@@ -88,10 +88,10 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+    <div className="crm-workflow-page" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <PageHeader
-        title="Body Analysis Evaluations"
-        subtitle="Record evaluations, generate AI Hindi health reports and dispatch via WhatsApp"
+        title="Body Analysis"
+        subtitle="Create an analysis or find an existing health report."
         action={
           <button
             onClick={() => setShowModal(true)}
@@ -105,7 +105,7 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
       />
 
       {/* Metrics Row (Single Line Compact Grid) */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 'var(--space-3)' }}>
+      <div className="crm-stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 'var(--space-3)' }}>
         <StatCard
           icon={<Icons.BodyAnalysis size={18} />}
           label="Total Evaluations"
@@ -130,7 +130,7 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
       </div>
 
       {/* Search & Filter Toolbar */}
-      <div className="card" style={{ padding: 'var(--space-3)' }}>
+      <div className="card crm-toolbar" style={{ padding: 'var(--space-3)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)' }}>
           <div style={{ position: 'relative', flex: 1 }}>
             <span style={{
@@ -162,7 +162,7 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
       </div>
 
       {/* Evaluations Data Table */}
-      <div className="table-container">
+      <div className="table-container responsive-card-table">
         {loading ? (
           <div style={{ padding: 'var(--space-12)' }}>
             <LoadingSpinner message="Loading body evaluations..." />
@@ -202,7 +202,7 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
 
                 return (
                   <tr key={item.id || idx}>
-                    <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', whiteSpace: 'nowrap' }}>
+                    <td data-label="Date" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', whiteSpace: 'nowrap' }}>
                       {item.date || (item.created_at ? item.created_at.split('T')[0] : '—')}
                       {item.serial_no && (
                         <div style={{ color: 'var(--clr-text-tertiary)', fontSize: '0.7rem' }}>
@@ -210,7 +210,7 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
                         </div>
                       )}
                     </td>
-                    <td>
+                    <td data-label="Person">
                       <div style={{ fontWeight: 600, color: 'var(--clr-text-primary)' }}>
                         {item.name || 'Unknown'}
                       </div>
@@ -218,30 +218,30 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
                         {item.phone_number || item.mobile || '—'}
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Age / Gender">
                       <span style={{ fontSize: 'var(--font-size-sm)' }}>
                         {item.age ? `${item.age}y` : '—'} / {item.gender || '—'}
                       </span>
                     </td>
-                    <td style={{ fontWeight: 600 }}>
+                    <td data-label="Weight" style={{ fontWeight: 600 }}>
                       {item.weight_kg ? `${item.weight_kg} kg` : '—'}
                     </td>
-                    <td>
+                    <td data-label="Body Fat">
                       <span className={`badge ${fat >= 32 ? 'badge-danger' : fat >= 25 ? 'badge-warning' : 'badge-success'}`}>
                         {item.body_fat_pct ? `${item.body_fat_pct}%` : '—'}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="Visceral Fat">
                       <span className={`badge ${visc >= 9 ? 'badge-danger' : 'badge-success'}`}>
                         {item.visceral_fat ? `Level ${item.visceral_fat}` : '—'}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="BMI">
                       <span className={`badge ${bmi >= 25 ? 'badge-warning' : 'badge-neutral'}`}>
                         {item.bmi || '—'}
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td data-label="Actions" style={{ textAlign: 'right' }}>
                       <div style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
                         <button
                           type="button"

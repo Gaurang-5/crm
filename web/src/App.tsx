@@ -24,6 +24,7 @@ import { BodyAnalysisReport } from './pages/BodyAnalysisReport';
 
 import { JoinPage } from './pages/JoinPage';
 import { MeetingTrackerPage } from './pages/MeetingTrackerPage';
+import { CRMHomePage } from './pages/CRMHomePage';
 
 export function App() {
   return (
@@ -40,7 +41,7 @@ export function App() {
 
       {/* ── AUTHENTICATED coach CRM routes ── */}
       <Route path="/crm" element={<Layout />}>
-        <Route index element={<TodayPage />} />
+        <Route index element={<CRMHomePage />} />
         <Route path="meetings" element={<MeetingTrackerPage />} />
         <Route path="today" element={<TodayPage />} />
         <Route path="leads" element={<LeadsPage />} />

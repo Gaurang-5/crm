@@ -89,15 +89,15 @@ export function LeadsPage() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       {/* Page Header */}
       <PageHeader
-        title="Leads"
-        subtitle="Inbound prospects and manual entries"
+        title="People"
+        subtitle="Find anyone who contacted Lifestyle Mantra."
         action={
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             <Link to="/crm/pipeline" className="btn btn-secondary">
-              View Pipeline Kanban
+              View interest board
             </Link>
             <button className="btn btn-primary" onClick={() => setIsAddModalOpen(true)}>
-              + Add Lead
+              + Add person
             </button>
           </div>
         }
@@ -120,7 +120,7 @@ export function LeadsPage() {
 
           {/* Stage Filter Tabs */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <span className="text-secondary" style={{ fontWeight: 600, whiteSpace: 'nowrap', fontSize: 'var(--font-size-sm)' }}>Stage:</span>
+            <span className="text-secondary" style={{ fontWeight: 600, whiteSpace: 'nowrap', fontSize: 'var(--font-size-sm)' }}>Progress:</span>
             <button
               onClick={() => setStageFilter('ALL')}
               className={`tab-btn${stageFilter === 'ALL' ? ' active' : ''}`}

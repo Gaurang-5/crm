@@ -9,7 +9,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, action, back }: PageHeaderProps) {
   return (
-    <div
+    <div className="page-header"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -19,7 +19,7 @@ export function PageHeader({ title, subtitle, action, back }: PageHeaderProps) {
       {back && (
         <div style={{ marginBottom: 'var(--space-1)' }}>{back}</div>
       )}
-      <div
+      <div className="page-header-row"
         style={{
           display: 'flex',
           alignItems: 'flex-start',
@@ -39,7 +39,7 @@ export function PageHeader({ title, subtitle, action, back }: PageHeaderProps) {
           )}
         </div>
         {action && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexShrink: 0 }}>
+          <div className="page-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexShrink: 0 }}>
             {action}
           </div>
         )}
