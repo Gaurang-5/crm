@@ -151,7 +151,7 @@
   box-shadow: var(--shadow-xs);
   display: flex;
   flex-direction: column;
-  justifyContent: center;
+  justify-content: center;
   gap: 2px;
   transition: all var(--dur-fast) var(--ease-out);
   position: relative;

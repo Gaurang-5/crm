@@ -93,7 +93,7 @@ export function LeadsPage() {
         subtitle="Inbound prospects and manual entries"
         action={
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-            <Link to="/pipeline" className="btn btn-secondary">
+            <Link to="/crm/pipeline" className="btn btn-secondary">
               View Pipeline Kanban
             </Link>
             <button className="btn btn-primary" onClick={() => setIsAddModalOpen(true)}>
@@ -170,7 +170,7 @@ export function LeadsPage() {
                     <td>
                       <div>
                         <Link
-                          to={`/leads/${lead.phone_number}`}
+                          to={`/crm/leads/${lead.phone_number}`}
                           style={{ fontWeight: 700, color: 'var(--clr-text-primary)' }}
                         >
                           {lead.display_name || 'Wellness Lead'}
@@ -214,7 +214,7 @@ export function LeadsPage() {
                         >
                           WhatsApp
                         </a>
-                        <Link to={`/leads/${lead.phone_number}`} className="btn btn-primary btn-sm">
+                        <Link to={`/crm/leads/${lead.phone_number}`} className="btn btn-primary btn-sm">
                           View
                         </Link>
                       </div>

@@ -21,7 +21,7 @@ export function Layout() {
   useEffect(() => {
     api.getSession()
       .then((data) => { if (data.coach) setCoach(data.coach); })
-      .catch(() => navigate('/login'));
+      .catch(() => navigate('/crm/login'));
   }, [navigate]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export function Layout() {
 
   const handleLogout = async () => {
     try { await api.logout(); } catch { /* ignore */ }
-    navigate('/login');
+    navigate('/crm/login');
   };
 
   return (

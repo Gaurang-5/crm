@@ -135,7 +135,7 @@ export function CustomerDetailPage() {
     return (
       <div className="card text-center p-8 space-y-3" style={{ maxWidth: 500, margin: '40px auto' }}>
         <p className="text-lg font-bold">Customer Not Found</p>
-        <Link to="/customers" className="btn btn-secondary">
+        <Link to="/crm/customers" className="btn btn-secondary">
           Back to Customers
         </Link>
       </div>
@@ -155,7 +155,7 @@ export function CustomerDetailPage() {
         subtitle={`${customer.phone_number} • Plan: ${customer.current_plan || 'Standard'} • Renewal: ${customer.renewal_date || 'N/A'}`}
         action={
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <Link to="/customers" className="btn btn-secondary btn-sm">
+            <Link to="/crm/customers" className="btn btn-secondary btn-sm">
               ← Customers
             </Link>
             <a

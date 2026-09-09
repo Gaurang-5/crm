@@ -8,7 +8,7 @@
     "dev:api": "tsx watch server/src/server.ts",
     "dev:web": "vite --config web/vite.config.ts",
     "build": "npm run build:api && npm run build:web",
-    "build:api": "tsc -p server/tsconfig.json",
+    "build:api": "tsc -p server/tsconfig.json && node scripts/copy-migrations.cjs",
     "build:web": "vite build --config web/vite.config.ts",
     "test": "npm run test:api && npm run test:web",
     "test:api": "vitest run server/tests --config server/vitest.config.ts",
@@ -17,7 +17,7 @@
     "test:ai": "tsx scripts/test-gemini.ts",
     "test:whatsapp": "tsx scripts/test-whatsapp.ts",
     "test:e2e": "playwright test",
-    "start:web": "node dist/server.js",
+    "start:web": "node dist/api/server/src/server.js",
     "start:worker": "node dist/worker.js"
   },
   "dependencies": {

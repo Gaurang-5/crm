@@ -91,7 +91,7 @@ export function TodayPage() {
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div className="section-header" style={{ marginBottom: 0 }}>
               <h3 className="section-title">Action Required: Overdue Tasks ({overdueTasks?.length || 0})</h3>
-              <Link to="/followups" className="section-link">Manage Tasks →</Link>
+              <Link to="/crm/followups" className="section-link">Manage Tasks →</Link>
             </div>
             {overdueTasks?.length === 0 ? (
               <EmptyState title="All caught up" message="No overdue tasks for today." />
@@ -119,7 +119,7 @@ export function TodayPage() {
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div className="section-header" style={{ marginBottom: 0 }}>
               <h3 className="section-title">Today's Appointments ({appointmentsToday?.length || 0})</h3>
-              <Link to="/followups" className="section-link">View Schedule →</Link>
+              <Link to="/crm/followups" className="section-link">View Schedule →</Link>
             </div>
             {appointmentsToday?.length === 0 ? (
               <EmptyState title="Free schedule" message="No appointments booked for today." />
@@ -148,7 +148,7 @@ export function TodayPage() {
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div className="section-header" style={{ marginBottom: 0 }}>
               <h3 className="section-title">Inbound Leads ({newLeads?.length || 0})</h3>
-              <Link to="/leads" className="section-link">All Leads →</Link>
+              <Link to="/crm/leads" className="section-link">All Leads →</Link>
             </div>
             {newLeads?.length === 0 ? (
               <EmptyState title="No new leads" message="No new inbound leads right now." />
@@ -165,7 +165,7 @@ export function TodayPage() {
                         <Icons.Message size={13} />
                         <span>WhatsApp</span>
                       </a>
-                      <Link to={`/leads/${lead.phone_number}`} className="btn btn-primary btn-sm">View</Link>
+                      <Link to={`/crm/leads/${lead.phone_number}`} className="btn btn-primary btn-sm">View</Link>
                     </div>
                   </div>
                 ))}
@@ -177,7 +177,7 @@ export function TodayPage() {
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div className="section-header" style={{ marginBottom: 0 }}>
               <h3 className="section-title">Pending Balances ({pendingPayments?.length || 0})</h3>
-              <Link to="/orders" className="section-link">Orders Ledger →</Link>
+              <Link to="/crm/orders" className="section-link">Orders Ledger →</Link>
             </div>
             {pendingPayments?.length === 0 ? (
               <EmptyState title="All clear" message="All customer balances are clear." />
@@ -191,7 +191,7 @@ export function TodayPage() {
                         Due: ₹{p.outstandingBalance?.toLocaleString('en-IN')} (Paid: ₹{p.totalPaymentsReceived?.toLocaleString('en-IN')})
                       </p>
                     </div>
-                    <Link to="/orders" className="btn btn-primary btn-sm">Record Payment</Link>
+                    <Link to="/crm/orders" className="btn btn-primary btn-sm">Record Payment</Link>
                   </div>
                 ))}
               </div>
@@ -204,7 +204,7 @@ export function TodayPage() {
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div className="section-header" style={{ marginBottom: 0 }}>
               <h3 className="section-title">Upcoming Renewals ({renewalsDue?.length || 0})</h3>
-              <Link to="/customers?status=RENEWAL_DUE" className="section-link">Manage Customers →</Link>
+              <Link to="/crm/customers?status=RENEWAL_DUE" className="section-link">Manage Customers →</Link>
             </div>
             {renewalsDue?.length === 0 ? (
               <EmptyState title="No renewals" message="No renewals due within the next 15 days." />
@@ -234,7 +234,7 @@ export function TodayPage() {
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div className="section-header" style={{ marginBottom: 0 }}>
               <h3 className="section-title">Missed Routine Check-ins ({missedCheckins?.length || 0})</h3>
-              <Link to="/customers" className="section-link">Customers Hub →</Link>
+              <Link to="/crm/customers" className="section-link">Customers Hub →</Link>
             </div>
             {missedCheckins?.length === 0 ? (
               <EmptyState title="All active" message="All active members are submitting check-ins regularly." />

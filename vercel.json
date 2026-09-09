@@ -4,7 +4,7 @@
   "outputDirectory": "dist/web",
   "functions": {
     "api/index.ts": {
-      "includeFiles": "api/src/db/migrations/**",
+      "includeFiles": "server/src/db/migrations/**",
       "maxDuration": 15
     }
   },
@@ -18,8 +18,30 @@
       "destination": "/api/index.ts"
     },
     {
-      "source": "/((?!api|health).*)",
-      "destination": "/index.html"
+      "source": "/crm/:path*",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/join",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/report",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/body-analysis",
+      "destination": "/app.html"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/maintenance/meeting-visits",
+      "schedule": "0 3 * * *"
     }
   ]
 }

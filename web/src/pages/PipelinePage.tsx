@@ -98,7 +98,7 @@ export function PipelinePage() {
       });
 
       setWonModalLead(null);
-      navigate(`/customers/${result.customer.id}`);
+      navigate(`/crm/customers/${result.customer.id}`);
     } catch (err: any) {
       console.error(err.message || 'Failed to convert lead');
     } finally {
@@ -117,7 +117,7 @@ export function PipelinePage() {
         subtitle="Drag and drop leads to advance them through stages"
         action={
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-            <Link to="/leads" className="btn btn-secondary">
+            <Link to="/crm/leads" className="btn btn-secondary">
               Table View
             </Link>
             <button onClick={loadPipeline} className="btn btn-secondary btn-sm" title="Refresh">
@@ -239,7 +239,7 @@ export function PipelinePage() {
                       >
                         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-2)' }}>
                           <Link
-                            to={`/leads/${lead.phone_number}`}
+                            to={`/crm/leads/${lead.phone_number}`}
                             onClick={(e) => e.stopPropagation()}
                             style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', color: 'var(--clr-text-primary)', lineHeight: 1.3 }}
                           >

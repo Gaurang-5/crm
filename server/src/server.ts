@@ -17,12 +17,13 @@ async function bootstrap() {
       console.log('✅ Connected to Supabase PostgreSQL database and migrations active.');
     } catch (err: any) {
       console.error('❌ Failed to connect to PostgreSQL database:', err.message);
-      if (env.APP_RUNTIME_MODE === 'production') {
+      if (env.APP_RUNTIME_MODE === 'production' || process.env.NODE_ENV === 'production') {
         process.exit(1);
       }
       console.log('⚠️ Running in in-memory mode.');
     }
   } else {
+    if (env.APP_RUNTIME_MODE === 'production' || process.env.NODE_ENV === 'production') throw new Error('DATABASE_URL is required in production');
     console.log('ℹ️ No DATABASE_URL found. Running in in-memory mode.');
   }
 

@@ -1,4 +1,5 @@
 import express from 'express';
+import { meetingPublic, meetingAdmin, maintenance, publicLead } from './meetings/routes';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
@@ -21,6 +22,7 @@ import { errorHandler, notFoundHandler } from './shared/errors';
 
 export function createApp(deps: any) {
   const app = express();
+  if (deps.trustProxy) app.set('trust proxy', deps.trustProxy);
 
   app.use(helmet({
     contentSecurityPolicy: false,
@@ -39,29 +41,11 @@ export function createApp(deps: any) {
   app.use('/api/auth/login', loginLimiter);
   app.use('/api/auth', authRouter);
   app.use('/api/webhooks', webhookRouter);
+  app.use('/api/public/meetings', meetingPublic);
+  app.use('/api/meetings', requireAuth, meetingAdmin);
+  app.use('/api/maintenance', maintenance);
 
-  // Public lead ingestion from website forms
-  app.post('/api/public/lead', async (req, res, next) => {
-    try {
-      const { phone, name, email, city, interest } = req.body;
-      if (!phone || !name) {
-        return res.status(400).json({ error: { code: 'INVALID_INPUT', message: 'Phone and Name are required' } });
-      }
-      const { ingestLead } = await import('./leads/leads.service');
-      const result = await ingestLead({
-        phone,
-        name,
-        email,
-        city,
-        channel: 'web_form',
-        campaignName: 'Public Website Consultation Form',
-        interestTopic: interest || 'Wellness & Fitness',
-      });
-      res.status(201).json({ success: true, lead: result.lead });
-    } catch (err) {
-      next(err);
-    }
-  });
+  app.use('/api/public/lead', publicLead);
 
   // Public customer-facing report endpoint (no auth — for shareable report links)
   app.get('/api/body-analyses', async (req, res, next) => {
@@ -101,14 +85,14 @@ export function createApp(deps: any) {
   app.use('/api', requireAuth, legacyRouter);
 
   // Serve static web build only in production mode when html is requested
-  const webDist = path.join(__dirname, '..', '..', 'dist', 'web');
+  const webDist = path.resolve(process.cwd(), 'dist/web');
   if (process.env.NODE_ENV === 'production' && fs.existsSync(webDist)) {
     app.use(express.static(webDist));
     app.get('*', (req, res, next) => {
       if (req.path.startsWith('/api') || req.path.startsWith('/health') || !req.accepts('html')) {
         return next();
       }
-      res.sendFile(path.join(webDist, 'index.html'));
+      res.sendFile(path.join(webDist, req.path === '/' ? 'index.html' : 'app.html'));
     });
   }
 

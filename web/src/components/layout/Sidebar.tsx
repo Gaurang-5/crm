@@ -10,18 +10,19 @@ export interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { path: '/today',         label: 'Today',              icon: <Icons.Today size={18} />, end: true },
-  { path: '/leads',         label: 'Leads',              icon: <Icons.Leads size={18} /> },
-  { path: '/pipeline',      label: 'Pipeline',           icon: <Icons.Pipeline size={18} /> },
-  { path: '/customers',     label: 'Customers',          icon: <Icons.Customers size={18} /> },
-  { path: '/followups',     label: 'Follow-ups',         icon: <Icons.FollowUps size={18} /> },
-  { path: '/analyses',     label: 'Body Analysis',      icon: <Icons.BodyAnalysis size={18} /> },
-  { path: '/homevisit',     label: 'Home Visits',        icon: <Icons.HomeVisit size={18} /> },
-  { path: '/orders',        label: 'Orders & Payments',  icon: <Icons.Orders size={18} /> },
-  { path: '/revenue',       label: 'Revenue & Profit',   icon: <Icons.Revenue size={18} /> },
-  { path: '/campaigns',     label: 'Campaigns',          icon: <Icons.Campaigns size={18} /> },
-  { path: '/reports',       label: 'Reports',            icon: <Icons.Reports size={18} /> },
-  { path: '/settings',      label: 'Settings',           icon: <Icons.Settings size={18} /> },
+  { path: '/crm/meetings', label: 'Meeting Tracker', icon: <Icons.Campaigns size={18} /> },
+  { path: '/crm/today',         label: 'Today',              icon: <Icons.Today size={18} />, end: true },
+  { path: '/crm/leads',         label: 'Leads',              icon: <Icons.Leads size={18} /> },
+  { path: '/crm/pipeline',      label: 'Pipeline',           icon: <Icons.Pipeline size={18} /> },
+  { path: '/crm/customers',     label: 'Customers',          icon: <Icons.Customers size={18} /> },
+  { path: '/crm/followups',     label: 'Follow-ups',         icon: <Icons.FollowUps size={18} /> },
+  { path: '/crm/analyses',     label: 'Body Analysis',      icon: <Icons.BodyAnalysis size={18} /> },
+  { path: '/crm/homevisit',     label: 'Home Visits',        icon: <Icons.HomeVisit size={18} /> },
+  { path: '/crm/orders',        label: 'Orders & Payments',  icon: <Icons.Orders size={18} /> },
+  { path: '/crm/revenue',       label: 'Revenue & Profit',   icon: <Icons.Revenue size={18} /> },
+  { path: '/crm/campaigns',     label: 'Campaigns',          icon: <Icons.Campaigns size={18} /> },
+  { path: '/crm/reports',       label: 'Reports',            icon: <Icons.Reports size={18} /> },
+  { path: '/crm/settings',      label: 'Settings',           icon: <Icons.Settings size={18} /> },
 ];
 
 interface SidebarProps {

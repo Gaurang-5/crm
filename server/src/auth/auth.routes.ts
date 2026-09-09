@@ -13,10 +13,7 @@ authRouter.post('/login', async (req, res, next) => {
       return res.status(401).json({ error: { code: 'INVALID_CREDENTIALS', message: 'Email or password is incorrect' } });
     }
     
-    let valid = password === 'admin'; // master bypass for development
-    if (!valid && coachRow.password_hash) {
-      valid = await verifyPassword(password, coachRow.password_hash);
-    }
+    const valid = typeof password === 'string' && await verifyPassword(password, coachRow.password_hash);
     if (!valid) {
       return res.status(401).json({ error: { code: 'INVALID_CREDENTIALS', message: 'Email or password is incorrect' } });
     }

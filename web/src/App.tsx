@@ -22,10 +22,15 @@ import { BodyAnalysisPage } from './pages/BodyAnalysisPage';
 import { ConsumerHomevisitPage } from './pages/ConsumerHomevisitPage';
 import { BodyAnalysisReport } from './pages/BodyAnalysisReport';
 
+import { JoinPage } from './pages/JoinPage';
+import { MeetingTrackerPage } from './pages/MeetingTrackerPage';
+
 export function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/join" element={<JoinPage />} />
+      <Route path="/login" element={<Navigate to="/crm/login" replace />} />
+      <Route path="/crm/login" element={<Login />} />
 
       {/* ── PUBLIC customer-facing routes — no auth required ── */}
       {/* /body-analysis?phone=919XXXXXXXXX → shows client their health report */}
@@ -34,8 +39,9 @@ export function App() {
       <Route path="/report" element={<BodyAnalysisReport />} />
 
       {/* ── AUTHENTICATED coach CRM routes ── */}
-      <Route path="/" element={<Layout />}>
+      <Route path="/crm" element={<Layout />}>
         <Route index element={<TodayPage />} />
+        <Route path="meetings" element={<MeetingTrackerPage />} />
         <Route path="today" element={<TodayPage />} />
         <Route path="leads" element={<LeadsPage />} />
         <Route path="leads/:phone" element={<LeadDetailPage />} />
@@ -46,13 +52,13 @@ export function App() {
         {/* Coach CRM body analysis is now at /analyses */}
         <Route path="analyses" element={<BodyAnalysisPage />} />
         <Route path="homevisit" element={<ConsumerHomevisitPage />} />
-        <Route path="progress" element={<Navigate to="/analyses" replace />} />
+        <Route path="progress" element={<Navigate to="/crm/analyses" replace />} />
         <Route path="orders" element={<OrdersPaymentsPage />} />
         <Route path="revenue" element={<RevenueProfitPage />} />
         <Route path="campaigns" element={<CampaignsPage />} />
         <Route path="reports" element={<ReportsPage />} />
         <Route path="settings" element={<SettingsPage />} />
-        <Route path="*" element={<Navigate to="/today" replace />} />
+        <Route path="*" element={<Navigate to="/crm/today" replace />} />
       </Route>
     </Routes>
   );

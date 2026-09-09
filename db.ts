@@ -362,12 +362,14 @@ export async function getLead(phone: string): Promise<Lead | null> {
 export async function getAllLeads(coachId?: string): Promise<Lead[]> {
   if (pool && !useInMemory) {
     const query = coachId
-      ? `SELECT l.*, p.name as person_name, p.email as person_email, p.city as person_city
+      ? `SELECT l.*, p.name as person_name, p.email as person_email, p.city as person_city,
+         (SELECT COALESCE(json_agg(s ORDER BY s.created_at DESC), '[]'::json) FROM lead_sources s WHERE s.person_id=l.person_id) AS sources
          FROM leads l
          LEFT JOIN people p ON l.person_id = p.id
          WHERE l.coach_id = $1 OR l.coach_id IS NULL
          ORDER BY l.updated_at DESC`
-      : `SELECT l.*, p.name as person_name, p.email as person_email, p.city as person_city
+      : `SELECT l.*, p.name as person_name, p.email as person_email, p.city as person_city,
+         (SELECT COALESCE(json_agg(s ORDER BY s.created_at DESC), '[]'::json) FROM lead_sources s WHERE s.person_id=l.person_id) AS sources
          FROM leads l
          LEFT JOIN people p ON l.person_id = p.id
          ORDER BY l.updated_at DESC`;

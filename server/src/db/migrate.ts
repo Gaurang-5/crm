@@ -35,7 +35,7 @@ export async function runMigrations(
           migrations.push({ version, sql });
         }
       } catch (e) {
-        // Ignored if folder doesn't exist
+        throw new Error('Database migration files could not be loaded', { cause: e });
       }
     }
 

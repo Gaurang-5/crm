@@ -61,7 +61,7 @@ export function LeadDetailPage() {
       return;
     }
     if (newStage === 'WON') {
-      navigate('/pipeline');
+      navigate('/crm/pipeline');
       return;
     }
     try {
@@ -80,7 +80,7 @@ export function LeadDetailPage() {
     return (
       <div className="card text-center p-8 space-y-3">
         <p className="text-lg font-bold">Lead Not Found</p>
-        <Link to="/leads" className="btn btn-secondary">
+        <Link to="/crm/leads" className="btn btn-secondary">
           Back to Leads Directory
         </Link>
       </div>
@@ -94,7 +94,7 @@ export function LeadDetailPage() {
       {/* Back and Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link to="/leads" className="btn btn-secondary btn-sm">
+          <Link to="/crm/leads" className="btn btn-secondary btn-sm">
             ← Leads
           </Link>
           <h2 className="text-heading">{lead.display_name || 'Lead Profile'}</h2>
@@ -110,7 +110,7 @@ export function LeadDetailPage() {
             WhatsApp Chat
           </a>
           <button
-            onClick={() => navigate('/pipeline')}
+            onClick={() => navigate('/crm/pipeline')}
             className="btn btn-primary bg-emerald-700 hover:bg-emerald-800"
           >
             Convert to Customer →

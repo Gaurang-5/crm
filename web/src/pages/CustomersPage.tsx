@@ -41,7 +41,7 @@ export function CustomersPage() {
         title="Customers"
         subtitle="Active wellness members, compliance, renewals"
         action={
-          <Link to="/pipeline" className="btn btn-secondary">
+          <Link to="/crm/pipeline" className="btn btn-secondary">
             + Convert Lead
           </Link>
         }
@@ -107,7 +107,7 @@ export function CustomersPage() {
                 <tr key={c.id}>
                   <td>
                     <Link
-                      to={`/customers/${c.id}`}
+                      to={`/crm/customers/${c.id}`}
                       style={{ fontWeight: 600, color: 'var(--clr-text-primary)' }}
                     >
                       {c.name}
@@ -156,7 +156,7 @@ export function CustomersPage() {
                       >
                         WhatsApp
                       </a>
-                      <Link to={`/customers/${c.id}`} className="btn btn-primary btn-sm">
+                      <Link to={`/crm/customers/${c.id}`} className="btn btn-primary btn-sm">
                         Wellness Hub →
                       </Link>
                     </div>

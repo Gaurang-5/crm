@@ -28,10 +28,6 @@ export async function getCoachByEmailWithPassword(email: string) {
     row = rows[0] || null;
   }
   if (!row) return null;
-  // If password_hash was never set in DB (e.g. freshly seeded), inject one so admin/admin works
-  if (!row.password_hash) {
-    row = { ...row, password_hash: await hashPassword('Correct-Horse-2026') };
-  }
   return row;
 }
 

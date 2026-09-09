@@ -24,6 +24,7 @@ import { Lead, LeadSourceChannel } from '../shared/types';
 import { evaluateAutomationsForTrigger } from '../automations/automations.service';
 
 export interface IngestLeadInput {
+  triggerAutomations?: boolean;
   phone: string;
   name: string;
   email?: string;
@@ -101,7 +102,7 @@ export async function ingestLead(input: IngestLeadInput): Promise<{ lead: Lead; 
   });
 
   // 6. Trigger Automations (e.g. Welcome message or Coach alert)
-  if (isNewLead) {
+  if (isNewLead && input.triggerAutomations !== false) {
     await evaluateAutomationsForTrigger('NEW_LEAD', {
       phone: norm,
       name: input.name,

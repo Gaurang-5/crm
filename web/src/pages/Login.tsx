@@ -19,7 +19,7 @@ export function Login() {
         body: JSON.stringify({ email, password }),
       });
       if (res.ok) {
-        navigate('/today');
+        navigate('/crm/today');
       } else {
         const body = await res.json();
         setError(body.error?.message || 'Invalid username or password');
@@ -204,7 +204,7 @@ export function Login() {
               fontWeight: 600,
             }}
           >
-            Default login: <strong>admin</strong> / <strong>admin</strong>
+            Sign in with your coach account credentials.
           </div>
           <p
             style={{
