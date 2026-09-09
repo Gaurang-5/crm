@@ -65,11 +65,21 @@ meetingPublic.use(
 );
 meetingPublic.get(
   "/status",
-  wrap(async (_req, res) =>
+  wrap(async (_req, res) => {
+    const link = (await allLinks()).find((l) => l.status === "ACTIVE");
     res.json({
-      available: (await allLinks()).some((l) => l.status === "ACTIVE"),
-    }),
-  ),
+      available: !!link,
+      meeting: link
+        ? {
+            topic: link.topic,
+            date: link.meeting_date,
+            time: link.meeting_time,
+            meetingId: link.meeting_id,
+            passcode: link.passcode,
+          }
+        : null,
+    });
+  }),
 );
 meetingPublic.post(
   "/visits",
@@ -256,10 +266,18 @@ meetingAdmin.get(
 meetingAdmin.post(
   "/links",
   wrap(async (req, res) => {
-    const { destinationUrl } = parse(
-      z.object({ destinationUrl: z.string().url().max(2048) }),
+    const input = parse(
+      z.object({
+        destinationUrl: z.string().url().max(2048),
+        topic: z.string().trim().min(1).max(200).default("Wellness Session"),
+        date: z.string().trim().max(80).default(""),
+        time: z.string().trim().max(80).default(""),
+        meetingId: z.string().trim().max(80).default(""),
+        passcode: z.string().trim().max(100).default(""),
+      }),
       req.body,
     );
+    const { destinationUrl } = input;
     const u = new URL(destinationUrl);
     if (
       u.protocol !== "https:" ||
@@ -269,7 +287,15 @@ meetingAdmin.post(
       !(u.hostname === "zoom.us" || u.hostname.endsWith(".zoom.us"))
     )
       throw new AppError("INVALID_INPUT", "Enter a valid Zoom HTTPS link");
-    res.status(201).json(await changeLink(req.coach.id, u.href));
+    res.status(201).json(
+      await changeLink(req.coach.id, u.href, undefined, {
+        topic: input.topic,
+        meeting_date: input.date,
+        meeting_time: input.time,
+        meeting_id: input.meetingId,
+        passcode: input.passcode,
+      }),
+    );
   }),
 );
 meetingAdmin.post(

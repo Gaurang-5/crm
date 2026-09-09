@@ -33,7 +33,16 @@ export interface Link {
   created_by: string;
   created_at: string;
   deactivated_at?: string;
+  topic: string;
+  meeting_date: string;
+  meeting_time: string;
+  meeting_id: string;
+  passcode: string;
 }
+export type MeetingDetails = Pick<
+  Link,
+  "topic" | "meeting_date" | "meeting_time" | "meeting_id" | "passcode"
+>;
 const visits = new Map<string, Visit>();
 const links: Link[] = [];
 let lock = Promise.resolve();
@@ -108,6 +117,7 @@ export async function changeLink(
   coach: string,
   url?: string,
   disableId?: string,
+  details?: MeetingDetails,
 ) {
   return exclusive(async (client) => {
     const now = new Date().toISOString();
@@ -131,12 +141,29 @@ export async function changeLink(
       status: "ACTIVE",
       created_by: coach,
       created_at: now,
+      topic: details?.topic || "Wellness Session",
+      meeting_date: details?.meeting_date || "",
+      meeting_time: details?.meeting_time || "",
+      meeting_id: details?.meeting_id || "",
+      passcode: details?.passcode || "",
     };
     if (url) {
       if (client)
         await client.query(
-          "INSERT INTO meeting_links(id,destination_url,status,created_by) VALUES($1,$2,$3,$4)",
-          [link.id, url, "ACTIVE", coach],
+          `INSERT INTO meeting_links(
+            id,destination_url,status,created_by,topic,meeting_date,meeting_time,meeting_id,passcode
+          ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+          [
+            link.id,
+            url,
+            "ACTIVE",
+            coach,
+            link.topic,
+            link.meeting_date,
+            link.meeting_time,
+            link.meeting_id,
+            link.passcode,
+          ],
         );
       else links.push(link);
     }

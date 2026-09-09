@@ -4,31 +4,31 @@
    ============================================================ */
 
 :root {
-  /* ---- Brand (Refined Executive Emerald & Deep Slate) ---- */
-  --clr-brand:           #0f766e;        /* Deep teal / emerald */
-  --clr-brand-hover:     #115e59;
-  --clr-brand-light:     #f0fdfa;
-  --clr-brand-border:    #ccfbf1;
-  --clr-brand-text:      #134e4a;
+  /* ---- Brand (matches the public Lifestyle Mantra site) ---- */
+  --clr-brand:           #0066cc;
+  --clr-brand-hover:     #0055b3;
+  --clr-brand-light:     #eef5ff;
+  --clr-brand-border:    #cfe3ff;
+  --clr-brand-text:      #004b99;
 
   /* ---- Surfaces (Crisp Minimalist Hierarchy) ---- */
-  --clr-bg:              #f8fafc;        /* Ultra-clean slate background */
+  --clr-bg:              #f4f4f6;
   --clr-surface-0:       #ffffff;        /* Pure white cards */
   --clr-surface-1:       rgba(255, 255, 255, 0.92);
   --clr-surface-2:       rgba(255, 255, 255, 0.75);
   --clr-overlay:         rgba(15, 23, 42, 0.45);
 
   /* ---- Text (High Contrast, Deep Executive Slate) ---- */
-  --clr-text-primary:    #0f172a;        /* Pitch dark slate */
-  --clr-text-secondary:  #475569;        /* Neutral slate */
-  --clr-text-tertiary:   #94a3b8;        /* Subtle slate */
+  --clr-text-primary:    #1d1d1f;
+  --clr-text-secondary:  #424245;
+  --clr-text-tertiary:   #86868b;
   --clr-text-inverse:    #ffffff;
-  --clr-text-brand:      #0f766e;
-  --clr-text-link:       #0f766e;
+  --clr-text-brand:      #0066cc;
+  --clr-text-link:       #0066cc;
 
   /* ---- Borders (Ultra-Fine Crisp Micro Borders) ---- */
-  --clr-border:          #e2e8f0;
-  --clr-border-strong:   #cbd5e1;
+  --clr-border:          #e5e5ea;
+  --clr-border-strong:   #d2d2d7;
   --clr-border-glass:    rgba(226, 232, 240, 0.8);
 
   /* ---- Semantic Colors (Subtle & Elegant) ---- */

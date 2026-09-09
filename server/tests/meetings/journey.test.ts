@@ -14,8 +14,11 @@ it("tracks a visitor without exposing Zoom until registration and protects admin
     .expect(200);
   await admin
     .post("/api/meetings/links")
-    .send({ destinationUrl: "https://zoom.us/j/123456789" })
+    .send({ destinationUrl: "https://zoom.us/j/123456789", topic: "Mind, Body and Soul", date: "7th Sep 2026", time: "7:30am", meetingId: "816 0793 8844", passcode: "1234" })
     .expect(201);
+  const status = await request(app).get("/api/public/meetings/status").expect(200);
+  expect(status.body.meeting).toEqual({ topic: "Mind, Body and Soul", date: "7th Sep 2026", time: "7:30am", meetingId: "816 0793 8844", passcode: "1234" });
+  expect(JSON.stringify(status.body)).not.toContain("zoom.us");
   const visitToken = randomUUID();
   const created = await request(app)
     .post("/api/public/meetings/visits")

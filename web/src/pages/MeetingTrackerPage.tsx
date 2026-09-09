@@ -20,6 +20,11 @@ type MeetingLink = {
   destination_url: string;
   status: string;
   created_at: string;
+  topic: string;
+  meeting_date: string;
+  meeting_time: string;
+  meeting_id: string;
+  passcode: string;
 };
 type Visit = {
   id: string;
@@ -30,11 +35,32 @@ type Visit = {
   source: string;
   lead_phone_number?: string;
 };
+export function parseWhatsAppMeeting(message: string) {
+  const value = message.replace(/\r/g, "");
+  const field = (label: string) =>
+    value.match(new RegExp(`^\\s*${label}\\s*[:：-]\\s*(.+)$`, "im"))?.[1]?.trim() || "";
+  const zoomUrl = value.match(/https:\/\/[^\s\])>]*zoom\.us\/[^\s\])>]*/i)?.[0] || "";
+  const combined = value.match(/^\s*Meeting\s*ID\s*[:：-]\s*(.+?)\s+Passcode\s*[:：-]\s*(.+?)\|?\s*$/im);
+  return {
+    topic: field("Topic"),
+    date: field("Date"),
+    time: field("Time"),
+    meetingId: combined?.[1]?.trim() || field("Meeting\\s*ID"),
+    passcode: (combined?.[2]?.trim() || field("Passcode")).replace(/\|$/, "").trim(),
+    destinationUrl: zoomUrl,
+  };
+}
 export function MeetingTrackerPage() {
   const [links, setLinks] = useState<MeetingLink[]>([]),
     [visits, setVisits] = useState<Visit[]>([]),
     [summary, setSummary] = useState<any>({});
   const [url, setUrl] = useState(""),
+    [message, setMessage] = useState(""),
+    [topic, setTopic] = useState(""),
+    [meetingDate, setMeetingDate] = useState(""),
+    [meetingTime, setMeetingTime] = useState(""),
+    [meetingId, setMeetingId] = useState(""),
+    [passcode, setPasscode] = useState(""),
     [search, setSearch] = useState(""),
     [status, setStatus] = useState(""),
     [from, setFrom] = useState(""),
@@ -84,6 +110,16 @@ export function MeetingTrackerPage() {
   useEffect(() => {
     if (detail) closeButton.current?.focus();
   }, [detail]);
+  function parseMessage() {
+    const parsed = parseWhatsAppMeeting(message);
+    setTopic(parsed.topic);
+    setMeetingDate(parsed.date);
+    setMeetingTime(parsed.time);
+    setMeetingId(parsed.meetingId);
+    setPasscode(parsed.passcode);
+    setUrl(parsed.destinationUrl);
+    setNotice(parsed.destinationUrl && parsed.topic ? "Message parsed. Check the details, then save the session." : "Some details could not be found. Fill in the missing fields below.");
+  }
   async function change(destinationUrl?: string, id?: string) {
     setBusy(true);
     setError("");
@@ -91,9 +127,20 @@ export function MeetingTrackerPage() {
     try {
       await apiRequest(
         id ? `/api/meetings/links/${id}/disable` : "/api/meetings/links",
-        { method: "POST", body: JSON.stringify({ destinationUrl }) },
+        {
+          method: "POST",
+          body: JSON.stringify({
+            destinationUrl,
+            topic,
+            date: meetingDate,
+            time: meetingTime,
+            meetingId,
+            passcode,
+          }),
+        },
       );
       setUrl("");
+      setMessage("");
       setNotice(
         id
           ? "The session link is paused."
@@ -153,7 +200,7 @@ export function MeetingTrackerPage() {
         </div>
       )}
       <section className="tracker-panel">
-        <h2>Your session link</h2>
+        <h2>Your session</h2>
         <p>
           Share <a href={publicUrl}>{publicUrl}</a> in your WhatsApp groups.
           Change the Zoom destination here whenever needed; it stays active
@@ -167,14 +214,27 @@ export function MeetingTrackerPage() {
           {active?.destination_url ||
             "Add a Zoom link below to welcome guests."}
         </p>
+        <div className="message-parser">
+          <label>
+            Paste the complete WhatsApp message
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder={"Topic: Mind, Body and Soul\nDate: 7th Sep 2026\nTime: 7:30am\nJoin Zoom Meeting\nhttps://…zoom.us/j/…\nMeeting ID: 816 0793 8844 Passcode: 1234"}
+            />
+          </label>
+          <button type="button" className="tracker-button" disabled={!message.trim()} onClick={parseMessage}>
+            Read message
+          </button>
+        </div>
         <form
-          className="tracker-controls"
+          className="tracker-session-form"
           onSubmit={(e) => {
             e.preventDefault();
             void change(url);
           }}
         >
-          <label>
+          <label className="tracker-wide">
             Paste a Zoom meeting link
             <input
               type="url"
@@ -185,8 +245,29 @@ export function MeetingTrackerPage() {
               placeholder="https://…zoom.us/j/…"
             />
           </label>
+          <label>
+            Topic
+            <input required value={topic} maxLength={200} onChange={(e) => setTopic(e.target.value)} placeholder="Mind, Body and Soul" />
+          </label>
+          <label>
+            Date
+            <input required value={meetingDate} maxLength={80} onChange={(e) => setMeetingDate(e.target.value)} placeholder="7th Sep 2026" />
+          </label>
+          <label>
+            Time
+            <input required value={meetingTime} maxLength={80} onChange={(e) => setMeetingTime(e.target.value)} placeholder="7:30am" />
+          </label>
+          <label>
+            Meeting ID
+            <input value={meetingId} maxLength={80} onChange={(e) => setMeetingId(e.target.value)} placeholder="816 0793 8844" />
+          </label>
+          <label>
+            Passcode
+            <input value={passcode} maxLength={100} onChange={(e) => setPasscode(e.target.value)} placeholder="1234" />
+          </label>
+          <div className="tracker-form-actions">
           <button className="tracker-button primary" disabled={busy}>
-            {busy ? "Saving…" : "Save Zoom link"}
+            {busy ? "Saving…" : "Save session"}
           </button>
           {active && (
             <button
@@ -198,6 +279,7 @@ export function MeetingTrackerPage() {
               Pause link
             </button>
           )}
+          </div>
         </form>
         <details>
           <summary>Link history ({links.length})</summary>
@@ -208,6 +290,9 @@ export function MeetingTrackerPage() {
                 {time(l.created_at)}
               </strong>
               <div className="tracker-link">{l.destination_url}</div>
+              <div className="tracker-link">
+                {l.topic} · {l.meeting_date} · {l.meeting_time}
+              </div>
             </div>
           ))}
         </details>
