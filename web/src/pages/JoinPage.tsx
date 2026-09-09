@@ -79,8 +79,7 @@ export function JoinPage() {
   async function saveDraft(keepalive = false) {
     if (
       !ready ||
-      confirmed.current ||
-      (!draft.current.name && !draft.current.phone)
+      confirmed.current
     )
       return;
     const rev = ++revision.current;
