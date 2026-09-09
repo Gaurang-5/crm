@@ -120,7 +120,7 @@ export function OrdersPaymentsPage() {
             message="No customer balance accounts logged yet."
           />
         ) : (
-          <div className="table-container">
+          <div className="table-container responsive-card-table">
             <table>
               <thead>
                 <tr>
@@ -136,24 +136,24 @@ export function OrdersPaymentsPage() {
               <tbody>
                 {balances.map((b) => (
                   <tr key={b.customerId}>
-                    <td>
+                    <td data-label="Customer">
                       <div>
                         <p style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', color: 'var(--clr-text-primary)', margin: 0 }}>{b.customerName}</p>
                         <p className="text-caption" style={{ margin: 0 }}>{b.phone}</p>
                       </div>
                     </td>
-                    <td><Badge variant="neutral">{b.plan}</Badge></td>
-                    <td style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>₹{b.totalOrdersAmount?.toLocaleString('en-IN')}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--clr-brand)' }}>₹{b.totalPaymentsReceived?.toLocaleString('en-IN')}</td>
-                    <td>
+                    <td data-label="Plan"><Badge variant="neutral">{b.plan}</Badge></td>
+                    <td data-label="Order value" style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>₹{b.totalOrdersAmount?.toLocaleString('en-IN')}</td>
+                    <td data-label="Received" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--clr-brand)' }}>₹{b.totalPaymentsReceived?.toLocaleString('en-IN')}</td>
+                    <td data-label="Balance">
                       {b.outstandingBalance > 0 ? (
                         <Badge variant="warning">₹{b.outstandingBalance?.toLocaleString('en-IN')}</Badge>
                       ) : (
                         <Badge variant="success">Settled </Badge>
                       )}
                     </td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>₹{b.cashProfit?.toLocaleString('en-IN')}</td>
-                    <td>
+                    <td data-label="Profit" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>₹{b.cashProfit?.toLocaleString('en-IN')}</td>
+                    <td data-label="Action">
                       <button
                         onClick={() => {
                           setSelectedCustomerId(b.customerId);
@@ -187,7 +187,7 @@ export function OrdersPaymentsPage() {
             message="No orders have been recorded yet."
           />
         ) : (
-          <div className="table-container">
+          <div className="table-container responsive-card-table">
             <table>
               <thead>
                 <tr>
@@ -204,13 +204,13 @@ export function OrdersPaymentsPage() {
               <tbody>
                 {orders.map((o) => (
                   <tr key={o.id}>
-                    <td style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)' }}>#{o.order_number || o.id}</td>
-                    <td className="text-secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{o.phone_number || '-'}</td>
-                    <td><Badge variant="info">{o.membership_type}</Badge></td>
-                    <td style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>₹{o.amount_received?.toLocaleString('en-IN')}</td>
-                    <td className="text-secondary" style={{ fontSize: 'var(--font-size-xs)' }}>₹{o.cost_of_kit?.toLocaleString('en-IN')}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>₹{o.cash_profit?.toLocaleString('en-IN')}</td>
-                    <td>
+                    <td data-label="Order" style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)' }}>#{o.order_number || o.id}</td>
+                    <td data-label="Phone" className="text-secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{o.phone_number || '-'}</td>
+                    <td data-label="Plan"><Badge variant="info">{o.membership_type}</Badge></td>
+                    <td data-label="Amount" style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>₹{o.amount_received?.toLocaleString('en-IN')}</td>
+                    <td data-label="Kit cost" className="text-secondary" style={{ fontSize: 'var(--font-size-xs)' }}>₹{o.cost_of_kit?.toLocaleString('en-IN')}</td>
+                    <td data-label="Profit" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>₹{o.cash_profit?.toLocaleString('en-IN')}</td>
+                    <td data-label="Status">
                       <Badge
                         variant={
                           o.order_status === 'DELIVERED'
@@ -225,7 +225,7 @@ export function OrdersPaymentsPage() {
                         {o.order_status}
                       </Badge>
                     </td>
-                    <td>
+                    <td data-label="Update">
                       <select
                         value={o.order_status}
                         onChange={(e) => handleUpdateOrderStatus(o.id, e.target.value)}

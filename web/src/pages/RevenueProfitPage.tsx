@@ -149,7 +149,7 @@ export function RevenueProfitPage() {
             message="No profit entries logged for this month yet."
           />
         ) : (
-          <div className="table-container">
+          <div className="table-container responsive-card-table">
             <table>
               <thead>
                 <tr>
@@ -167,27 +167,27 @@ export function RevenueProfitPage() {
               <tbody>
                 {entries.map((e: any) => (
                   <tr key={e.id}>
-                    <td style={{ fontSize: 'var(--font-size-xs)' }}>{e.payment_date}</td>
-                    <td style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-primary)' }}>
+                    <td data-label="Date" style={{ fontSize: 'var(--font-size-xs)' }}>{e.payment_date}</td>
+                    <td data-label="Member" style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-primary)' }}>
                       {e.member_name}
                     </td>
-                    <td>
+                    <td data-label="Plan">
                       <Badge variant="neutral">{e.membership_type}</Badge>
                     </td>
-                    <td style={{ fontSize: 'var(--font-size-xs)' }}>{e.transaction_type}</td>
-                    <td style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>
+                    <td data-label="Type" style={{ fontSize: 'var(--font-size-xs)' }}>{e.transaction_type}</td>
+                    <td data-label="Received" style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>
                       ₹{Number(e.amount_received || 0).toLocaleString('en-IN')}
                     </td>
-                    <td style={{ fontSize: 'var(--font-size-xs)' }}>
+                    <td data-label="Coach amount" style={{ fontSize: 'var(--font-size-xs)' }}>
                       ₹{Number(e.coach_amount || 0).toLocaleString('en-IN')}
                     </td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-danger, #e11d48)' }}>
+                    <td data-label="Kit cost" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-danger, #e11d48)' }}>
                       ₹{Number(e.cost_of_kit || 0).toLocaleString('en-IN')}
                     </td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-success, #059669)' }}>
+                    <td data-label="Profit" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-success, #059669)' }}>
                       ₹{Number(e.cash_profit || 0).toLocaleString('en-IN')}
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <Badge variant="success">{e.payment_status}</Badge>
                     </td>
                   </tr>
@@ -223,7 +223,7 @@ export function RevenueProfitPage() {
             message="No expenses have been recorded yet. Use the Log Expense button to add one."
           />
         ) : (
-          <div className="table-container">
+          <div className="table-container responsive-card-table">
             <table>
               <thead>
                 <tr>
@@ -237,17 +237,17 @@ export function RevenueProfitPage() {
               <tbody>
                 {expenses.map((exp: any) => (
                   <tr key={exp.id}>
-                    <td style={{ fontSize: 'var(--font-size-xs)' }}>{exp.expense_date}</td>
-                    <td style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-primary)' }}>
+                    <td data-label="Date" style={{ fontSize: 'var(--font-size-xs)' }}>{exp.expense_date}</td>
+                    <td data-label="Expense" style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-primary)' }}>
                       {exp.title}
                     </td>
-                    <td>
+                    <td data-label="Category">
                       <Badge variant="neutral">{exp.category}</Badge>
                     </td>
-                    <td style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)', color: 'var(--clr-danger, #e11d48)' }}>
+                    <td data-label="Amount" style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)', color: 'var(--clr-danger, #e11d48)' }}>
                       ₹{exp.amount?.toLocaleString('en-IN')}
                     </td>
-                    <td className="text-secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
+                    <td data-label="Notes" className="text-secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
                       {exp.notes || '-'}
                     </td>
                   </tr>

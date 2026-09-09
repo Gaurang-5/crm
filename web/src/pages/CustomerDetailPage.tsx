@@ -440,7 +440,7 @@ export function CustomerDetailPage() {
               }
             />
           ) : (
-            <div className="table-container">
+            <div className="table-container responsive-card-table">
               <table>
                 <thead>
                   <tr>
@@ -455,24 +455,24 @@ export function CustomerDetailPage() {
                 <tbody>
                   {checkins.map((c: any) => (
                     <tr key={c.id}>
-                      <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', fontWeight: 600 }}>
+                      <td data-label="Date" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', fontWeight: 600 }}>
                         {c.checkin_date}
                       </td>
-                      <td style={{ fontWeight: 700, color: 'var(--clr-text-primary)' }}>
+                      <td data-label="Weight" style={{ fontWeight: 700, color: 'var(--clr-text-primary)' }}>
                         {c.weight_kg ? `${c.weight_kg} kg` : '—'}
                       </td>
-                      <td>
+                      <td data-label="Water">
                         <span className="badge badge-neutral">{c.water_liters || 0} L</span>
                       </td>
-                      <td>
+                      <td data-label="Diet">
                         <span className={`badge ${c.meals_compliant ? 'badge-success' : 'badge-warning'}`}>
                           {c.meals_compliant ? 'Compliant' : 'Cheat Day'}
                         </span>
                       </td>
-                      <td style={{ fontSize: 'var(--font-size-xs)' }}>
+                      <td data-label="Energy & sleep" style={{ fontSize: 'var(--font-size-xs)' }}>
                         Energy {c.energy_level}/5 • {c.sleep_hours}h sleep
                       </td>
-                      <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', maxWidth: 280 }}>
+                      <td data-label="Feedback" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', maxWidth: 280 }}>
                         {c.coach_feedback || c.notes || '—'}
                       </td>
                     </tr>
@@ -513,7 +513,7 @@ export function CustomerDetailPage() {
               }
             />
           ) : (
-            <div className="table-container">
+            <div className="table-container responsive-card-table">
               <table>
                 <thead>
                   <tr>
@@ -528,16 +528,16 @@ export function CustomerDetailPage() {
                 <tbody>
                   {measurements.map((m: any) => (
                     <tr key={m.id}>
-                      <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', fontWeight: 600 }}>
+                      <td data-label="Date" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--clr-text-secondary)', fontWeight: 600 }}>
                         {m.recorded_date}
                       </td>
-                      <td>{m.chest_cm ? `${m.chest_cm} cm` : '—'}</td>
-                      <td style={{ fontWeight: 700, color: '#0f766e' }}>
+                      <td data-label="Chest">{m.chest_cm ? `${m.chest_cm} cm` : '—'}</td>
+                      <td data-label="Waist" style={{ fontWeight: 700, color: '#0f766e' }}>
                         {m.waist_cm ? `${m.waist_cm} cm` : '—'}
                       </td>
-                      <td>{m.hips_cm ? `${m.hips_cm} cm` : '—'}</td>
-                      <td>{m.thighs_cm ? `${m.thighs_cm} cm` : '—'}</td>
-                      <td>{m.arms_cm ? `${m.arms_cm} cm` : '—'}</td>
+                      <td data-label="Hips">{m.hips_cm ? `${m.hips_cm} cm` : '—'}</td>
+                      <td data-label="Thighs">{m.thighs_cm ? `${m.thighs_cm} cm` : '—'}</td>
+                      <td data-label="Arms">{m.arms_cm ? `${m.arms_cm} cm` : '—'}</td>
                     </tr>
                   ))}
                 </tbody>

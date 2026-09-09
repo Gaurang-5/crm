@@ -196,7 +196,7 @@ export function SettingsPage() {
 
           <div className="card" style={{ display:"flex", flexDirection:"column", gap:"var(--space-4)" }}>
             <h3 className="text-subheading border-b pb-2">Nutrition Products Catalog</h3>
-            <div className="table-container">
+            <div className="table-container responsive-card-table">
               <table>
                 <thead>
                   <tr>
@@ -211,12 +211,12 @@ export function SettingsPage() {
                 <tbody>
                   {products.map((prod) => (
                     <tr key={prod.id}>
-                      <td className="font-bold text-xs">{prod.code}</td>
-                      <td className="font-medium text-xs">{prod.name}</td>
-                      <td><span className="badge badge-neutral">{prod.category}</span></td>
-                      <td className="font-semibold text-xs">₹{Number(prod.sales_price).toLocaleString('en-IN')}</td>
-                      <td className="text-xs text-rose-600">₹{Number(prod.unit_cost).toLocaleString('en-IN')}</td>
-                      <td className="text-xs font-bold text-emerald-800">
+                      <td data-label="Code" className="font-bold text-xs">{prod.code}</td>
+                      <td data-label="Product" className="font-medium text-xs">{prod.name}</td>
+                      <td data-label="Category"><span className="badge badge-neutral">{prod.category}</span></td>
+                      <td data-label="Retail" className="font-semibold text-xs">₹{Number(prod.sales_price).toLocaleString('en-IN')}</td>
+                      <td data-label="Cost" className="text-xs text-rose-600">₹{Number(prod.unit_cost).toLocaleString('en-IN')}</td>
+                      <td data-label="Margin" className="text-xs font-bold text-emerald-800">
                         ₹{(prod.sales_price - prod.unit_cost).toLocaleString('en-IN')}
                       </td>
                     </tr>

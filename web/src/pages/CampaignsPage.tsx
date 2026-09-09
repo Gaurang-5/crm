@@ -79,7 +79,7 @@ export function CampaignsPage() {
             message="Create your first WhatsApp campaign."
           />
         ) : (
-          <div className="table-container">
+          <div className="table-container responsive-card-table">
             <table>
               <thead>
                 <tr>
@@ -93,13 +93,13 @@ export function CampaignsPage() {
               <tbody>
                 {channels.map((ch: any) => (
                   <tr key={ch.channel}>
-                    <td style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)' }}>
+                    <td data-label="Channel" style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)' }}>
                       {getChannelLabel(ch.channel)}
                     </td>
-                    <td style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>{ch.totalLeads}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>{ch.wonCustomers}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600 }}>₹{ch.totalRevenue?.toLocaleString('en-IN')}</td>
-                    <td>
+                    <td data-label="Leads" style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>{ch.totalLeads}</td>
+                    <td data-label="Customers" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>{ch.wonCustomers}</td>
+                    <td data-label="Revenue" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600 }}>₹{ch.totalRevenue?.toLocaleString('en-IN')}</td>
+                    <td data-label="Conversion">
                       <Badge variant="info">
                         {ch.totalLeads > 0 ? Math.round((ch.wonCustomers / ch.totalLeads) * 100) : 0}%
                       </Badge>
@@ -125,7 +125,7 @@ export function CampaignsPage() {
             message="Create your first WhatsApp campaign."
           />
         ) : (
-          <div className="table-container">
+          <div className="table-container responsive-card-table">
             <table>
               <thead>
                 <tr>
@@ -141,17 +141,17 @@ export function CampaignsPage() {
               <tbody>
                 {campaigns?.map((c: any) => (
                   <tr key={c.id}>
-                    <td style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)' }}>{c.name}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)' }}>{c.source}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: '#e11d48' }}>
+                    <td data-label="Campaign" style={{ fontWeight: 700, fontSize: 'var(--font-size-xs)' }}>{c.name}</td>
+                    <td data-label="Source" style={{ fontSize: 'var(--font-size-xs)' }}>{c.source}</td>
+                    <td data-label="Ad spend" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: '#e11d48' }}>
                       ₹{c.ad_spend?.toLocaleString('en-IN')}
                     </td>
-                    <td style={{ fontSize: 'var(--font-size-xs)' }}>{c.leadsCount}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>{c.wonCustomers}</td>
-                    <td style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700 }}>
+                    <td data-label="Leads" style={{ fontSize: 'var(--font-size-xs)' }}>{c.leadsCount}</td>
+                    <td data-label="Customers" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-brand)' }}>{c.wonCustomers}</td>
+                    <td data-label="CPA" style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700 }}>
                       ₹{c.costPerAcquisition?.toLocaleString('en-IN')}
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <Badge variant={getStatusVariant(c.status)}>{c.status}</Badge>
                     </td>
                   </tr>

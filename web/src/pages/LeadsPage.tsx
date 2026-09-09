@@ -104,8 +104,8 @@ export function LeadsPage() {
       />
 
       {/* Filter and Search Bar */}
-      <div className="card" style={{ padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-4)' }}>
+      <div className="card people-filters" style={{ padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+        <div className="people-filter-row" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-4)' }}>
           {/* Search */}
           <div className="search-input" style={{ flex: '1', minWidth: '200px', maxWidth: '420px' }}>
             <span className="search-input__icon"></span>
@@ -119,7 +119,7 @@ export function LeadsPage() {
           </div>
 
           {/* Stage Filter Tabs */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+          <div className="people-stage-filter" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
             <span className="text-secondary" style={{ fontWeight: 600, whiteSpace: 'nowrap', fontSize: 'var(--font-size-sm)' }}>Progress:</span>
             <button
               onClick={() => setStageFilter('ALL')}
@@ -141,7 +141,7 @@ export function LeadsPage() {
       </div>
 
       {/* Leads Table */}
-      <div className="table-container">
+      <div className="table-container responsive-card-table">
         {loading ? (
           <LoadingSpinner message="Loading leads..." />
         ) : filteredLeads.length === 0 ? (
@@ -167,7 +167,7 @@ export function LeadsPage() {
                 const source = lead.sources && lead.sources.length > 0 ? lead.sources[0] : null;
                 return (
                   <tr key={lead.phone_number}>
-                    <td>
+                    <td data-label="Person">
                       <div>
                         <Link
                           to={`/crm/leads/${lead.phone_number}`}
@@ -180,7 +180,7 @@ export function LeadsPage() {
                         </p>
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Source">
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
                         <Badge variant="neutral">
                           {source?.channel ? source.channel.toUpperCase() : 'WHATSAPP'}
@@ -190,20 +190,20 @@ export function LeadsPage() {
                         </p>
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Goal">
                       <span className="text-body">{lead.interest_topic || 'Weight Loss'}</span>
                     </td>
-                    <td>
+                    <td data-label="Progress">
                       <Badge variant={getStageBadgeVariant(lead.funnel_state)}>
                         {lead.funnel_state}
                       </Badge>
                     </td>
-                    <td>
+                    <td data-label="Next action">
                       <p className="text-body" style={{ maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {lead.next_action || 'Follow up'}
                       </p>
                     </td>
-                    <td>
+                    <td data-label="Actions">
                       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                         <a
                           href={`https://wa.me/${lead.phone_number}`}

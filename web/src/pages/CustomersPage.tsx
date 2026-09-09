@@ -79,7 +79,7 @@ export function CustomersPage() {
       </div>
 
       {/* Customers Table */}
-      <div className="table-container">
+      <div className="table-container responsive-card-table">
         {loading ? (
           <div style={{ padding: 'var(--space-8)' }}>
             <LoadingSpinner message="Loading customers..." />
@@ -105,7 +105,7 @@ export function CustomersPage() {
             <tbody>
               {filtered.map((c) => (
                 <tr key={c.id}>
-                  <td>
+                  <td data-label="Customer">
                     <Link
                       to={`/crm/customers/${c.id}`}
                       style={{ fontWeight: 600, color: 'var(--clr-text-primary)' }}
@@ -116,7 +116,7 @@ export function CustomersPage() {
                       {c.phone_number}
                     </p>
                   </td>
-                  <td>
+                  <td data-label="Plan">
                     <span style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', color: 'var(--clr-text-primary)' }}>
                       {c.current_plan} Plan
                     </span>
@@ -124,12 +124,12 @@ export function CustomersPage() {
                       Started: {c.start_date}
                     </p>
                   </td>
-                  <td>
+                  <td data-label="Renewal">
                     <span className="text-secondary" style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>
                       {c.renewal_date || 'N/A'}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="Balance">
                     <span
                       style={{
                         fontSize: 'var(--font-size-sm)',
@@ -142,10 +142,10 @@ export function CustomersPage() {
                         : 'Paid In Full '}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="Status">
                     <Badge status={c.status}>{c.status.replace('_', ' ')}</Badge>
                   </td>
-                  <td>
+                  <td data-label="Actions">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                       <a
                         href={`https://wa.me/${c.phone_number}`}
