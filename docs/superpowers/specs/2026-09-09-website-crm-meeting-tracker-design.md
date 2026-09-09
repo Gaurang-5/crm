@@ -19,7 +19,7 @@ The CRM repository becomes the single application and deployment:
 - `/api/public/*` serves narrowly scoped public ingestion and meeting endpoints.
 - `/api/*` continues to serve authenticated CRM endpoints.
 
-The existing landing page's visual identity, content, responsive behavior, transformation galleries, Instagram section, and motion are preserved while its markup is adapted into the React frontend. CRM routes move below `/crm`, with `/login` retained as the authentication entry point and successful login redirecting to `/crm/today`.
+The existing landing page's visual identity, content, responsive behavior, transformation galleries, Instagram section, and motion are preserved as an isolated static entry inside the CRM's Vite build. The authenticated CRM and public meeting page remain in the React entry. This multi-page build prevents the landing page's broad CSS and document-level interactions from affecting the CRM while still producing one project, origin, deployment, and API. CRM routes move below `/crm`, with `/login` retained as the authentication entry point and successful login redirecting to `/crm/today`.
 
 ## Public Landing Enquiry Flow
 
@@ -164,7 +164,7 @@ Public responses never expose historical links, coach identity data, private lea
 
 ## Visual and Interaction Design
 
-The landing page keeps its accepted public design. The `/join` page is designed first for WhatsApp mobile browsers and scales to desktop. It uses one focal action per stage, visible keyboard focus, correct autocomplete attributes, clear validation, and an ARIA live region for save and submission status. Motion respects `prefers-reduced-motion`.
+The landing page keeps its accepted public design in its isolated static entry. The `/join` page is designed first for WhatsApp mobile browsers and scales to desktop. It uses one focal action per stage, visible keyboard focus, correct autocomplete attributes, clear validation, and an ARIA live region for save and submission status. Motion respects `prefers-reduced-motion`.
 
 The CRM meeting page follows the existing dashboard components and density. The public page may share brand tokens with the landing page but does not import CRM dashboard styles that would create visual collisions.
 
