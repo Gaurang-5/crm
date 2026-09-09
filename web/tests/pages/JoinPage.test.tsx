@@ -17,7 +17,9 @@ it("asks for details only after Join Zoom and autosaves incomplete input", async
         : {},
   );
   render(<JoinPage />);
-  expect(screen.getByRole("img", { name: "Lifestyle Mantra logo" })).toBeInTheDocument();
+  const logo = screen.getByRole("img", { name: "Lifestyle Mantra logo" });
+  expect(logo).toBeInTheDocument();
+  expect(logo).toHaveAttribute("viewBox", "0 0 256 256");
   expect(screen.queryByLabelText("Full name")).toBeNull();
   await waitFor(() =>
     expect(screen.getByRole("button", { name: /Continue to Join/ })).toBeEnabled(),

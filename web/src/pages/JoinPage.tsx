@@ -132,12 +132,9 @@ export function JoinPage() {
     <main className="join-page">
       <header className="join-header">
         <a href="/" className="join-brand">
-          <svg className="join-logo" role="img" aria-label="Lifestyle Mantra logo" viewBox="0 0 48 48">
+          <svg className="join-logo" role="img" aria-label="Lifestyle Mantra logo" viewBox="0 0 256 256">
             <title>Lifestyle Mantra logo</title>
-            <rect width="48" height="48" rx="15" fill="#1d1d1f" />
-            <path d="M13 13v21h11" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M25 34V15l5.5 8 5.5-8v19" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="39" cy="9" r="3.5" fill="#2788ea" />
+            <path d="M 128 128 C 198.692 128 256 185.308 256 256 L 151.883 256 C 149.812 220.307 120.213 192 84 192 C 47.787 192 18.188 220.307 16.117 256 L 0 256 C 0 185.308 57.308 128 128 128 Z M 104.117 0 C 106.188 35.694 135.787 64 172 64 C 208.213 64 237.812 35.694 239.883 0 L 256 0 C 256 70.692 198.692 128 128 128 C 57.308 128 0 70.692 0 0 Z" />
           </svg>
           <span className="join-brand-copy">
             <strong>Lifestyle Mantra</strong>

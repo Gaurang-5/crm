@@ -23,7 +23,7 @@
   backdrop-filter: blur(20px) saturate(180%);
 }
 .join-brand { min-width: 0; display: flex; align-items: center; gap: 12px; color: #1d1d1f; text-decoration: none; }
-.join-logo { width: 48px; height: 48px; flex: 0 0 48px; filter: drop-shadow(0 7px 12px rgba(0,0,0,.12)); }
+.join-logo { width: 42px; height: 42px; flex: 0 0 42px; fill: #1d1d1f; filter: drop-shadow(0 3px 8px rgba(0,0,0,.1)); }
 .join-brand-copy { min-width: 0; }
 .join-brand-copy strong { display: block; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
 .join-brand-copy small { display: block; margin-top: 6px; color: #86868b; font-size: 7px; letter-spacing: .18em; text-transform: uppercase; }
@@ -73,7 +73,7 @@
 @media (max-width: 620px) {
   .join-page { padding: 12px 12px 26px; }
   .join-header { min-height: 66px; margin-bottom: 10px; padding: 9px 10px; border-radius: 18px; }
-  .join-logo { width: 44px; height: 44px; flex-basis: 44px; }
+  .join-logo { width: 40px; height: 40px; flex-basis: 40px; }
   .join-brand-copy strong { font-size: 11px; letter-spacing: .11em; }
   .join-brand-copy small { font-size: 6px; letter-spacing: .14em; }
   .join-site-link { width: 38px; padding: 0; justify-content: center; font-size: 0; }
