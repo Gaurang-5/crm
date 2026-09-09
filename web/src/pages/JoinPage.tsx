@@ -131,8 +131,20 @@ export function JoinPage() {
   return (
     <main className="join-page">
       <header className="join-header">
-        <a href="/" className="join-brand">LIFESTYLE MANTRA<small>WELLNESS, EVERY DAY.</small></a>
-        <a href="/">lifestylemantra.in</a>
+        <a href="/" className="join-brand">
+          <svg className="join-logo" role="img" aria-label="Lifestyle Mantra logo" viewBox="0 0 48 48">
+            <title>Lifestyle Mantra logo</title>
+            <rect width="48" height="48" rx="15" fill="#1d1d1f" />
+            <path d="M13 13v21h11" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M25 34V15l5.5 8 5.5-8v19" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="39" cy="9" r="3.5" fill="#2788ea" />
+          </svg>
+          <span className="join-brand-copy">
+            <strong>Lifestyle Mantra</strong>
+            <small>Wellness, every day.</small>
+          </span>
+        </a>
+        <a className="join-site-link" href="/">Visit website <span aria-hidden="true">↗</span></a>
       </header>
 
       <article className="invitation-card" aria-label="Join your wellness session">

@@ -8,16 +8,27 @@
 }
 .join-page * { box-sizing: border-box; }
 .join-header {
-  width: min(920px, 100%);
-  margin: 0 auto 28px;
+  width: min(620px, 100%);
+  min-height: 72px;
+  margin: 0 auto 14px;
+  padding: 11px 13px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  border: 1px solid rgba(255,255,255,.95);
+  border-radius: 21px;
+  background: rgba(255,255,255,.76);
+  box-shadow: 0 10px 34px rgba(0,0,0,.045), inset 0 1px 0 #fff;
+  backdrop-filter: blur(20px) saturate(180%);
 }
-.join-header > a:last-child { color: #6e6e73; font-size: 11px; text-decoration: none; }
-.join-brand { color: #1d1d1f; font-size: 15px; font-weight: 600; letter-spacing: .16em; text-decoration: none; }
-.join-brand small { display: block; margin-top: 7px; color: #6e6e73; font-size: 7px; letter-spacing: .22em; }
+.join-brand { min-width: 0; display: flex; align-items: center; gap: 12px; color: #1d1d1f; text-decoration: none; }
+.join-logo { width: 48px; height: 48px; flex: 0 0 48px; filter: drop-shadow(0 7px 12px rgba(0,0,0,.12)); }
+.join-brand-copy { min-width: 0; }
+.join-brand-copy strong { display: block; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+.join-brand-copy small { display: block; margin-top: 6px; color: #86868b; font-size: 7px; letter-spacing: .18em; text-transform: uppercase; }
+.join-site-link { min-height: 38px; display: inline-flex; align-items: center; gap: 7px; padding: 0 12px; border: 1px solid #e5e5ea; border-radius: 999px; color: #6e6e73; font-size: 10px; text-decoration: none; white-space: nowrap; }
+.join-site-link span { color: #0066cc; font-size: 14px; }
 .invitation-card {
   width: min(620px, 100%);
   margin: 0 auto;
@@ -60,9 +71,13 @@
 .join-footer { width: min(620px,100%); margin: 25px auto 0; padding-top: 18px; border-top: 1px solid #e5e5ea; color: #86868b; text-align: center; font-size: 9px; }
 @keyframes meeting-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (max-width: 620px) {
-  .join-page { padding: 20px 16px 26px; }
-  .join-header { margin-bottom: 20px; }
-  .join-header > a:last-child { display: none; }
+  .join-page { padding: 12px 12px 26px; }
+  .join-header { min-height: 66px; margin-bottom: 10px; padding: 9px 10px; border-radius: 18px; }
+  .join-logo { width: 44px; height: 44px; flex-basis: 44px; }
+  .join-brand-copy strong { font-size: 11px; letter-spacing: .11em; }
+  .join-brand-copy small { font-size: 6px; letter-spacing: .14em; }
+  .join-site-link { width: 38px; padding: 0; justify-content: center; font-size: 0; }
+  .join-site-link span { font-size: 15px; }
   .invitation-card { border-radius: 24px; }
   .invitation-photo { height: 190px; }
   .invitation-body { padding: 28px 24px 34px; }
