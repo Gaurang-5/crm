@@ -103,17 +103,3 @@
   .reels-footer > span { display: none; }
   .reels-cta { justify-content: space-between; }
 }
-
-/* Local services use the landing page typography and spacing. */
-.local-wellness { background: #f6f6f4; color: #1c1c1b; }
-.local-wellness > .body-copy { max-width: 760px; margin: 28px 0 40px; }
-.local-services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 36px 0; }
-.local-services article { border-top: 1px solid #d8d8d3; padding-top: 24px; }
-.local-services h3 { font-size: 24px; margin-bottom: 16px; }
-.local-services p, .local-faq p { line-height: 1.75; color: #555; }
-.local-faq { margin-top: 80px; max-width: 920px; }
-.local-faq h2 { margin-bottom: 32px; }
-.local-faq details { border-bottom: 1px solid #d8d8d3; padding: 22px 0; }
-.local-faq summary { cursor: pointer; font-size: 18px; line-height: 1.5; }
-.local-faq p { margin-top: 16px; }
-@media (max-width: 700px) { .local-services { grid-template-columns: 1fr; } .local-wellness h2 { font-size: clamp(34px, 9vw, 48px); } }
