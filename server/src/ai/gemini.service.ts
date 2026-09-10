@@ -2,6 +2,17 @@ import { GoogleGenAI } from '@google/genai';
 
 let ai: GoogleGenAI | null = null;
 
+export function getBodyReportUrl(phone: string): string {
+  const base = process.env.APP_BASE_URL || (process.env.NODE_ENV === 'production' ? 'https://lifestylemantra.in' : 'http://localhost:5173');
+  const url = new URL('/report', base);
+  if (['localhost', '127.0.0.1'].includes(url.hostname)) {
+    url.protocol = 'http:';
+    if (url.port === '3000') url.port = '5173';
+  }
+  url.searchParams.set('phone', phone);
+  return url.toString();
+}
+
 export function getFallbackBodyAnalysisReport(data: any): string {
   const bmiVal = Number(data.bmi || 0);
   let bmiCategory = 'सामान्य';
@@ -75,7 +86,7 @@ BMI: ${data.bmi} (${bmiCategory} श्रेणी)
 * विसरल फैट ${data.visceral_fat} से घटाकर 8 या उससे कम करना।
 * मसल मास बढ़ाकर मेटाबॉलिज्म और बॉडी एज में सुधार करना।
 
-🔗 विस्तृत रिपोर्ट लिंक: http://localhost:5173/report?phone=${phoneParam}`;
+🔗 विस्तृत रिपोर्ट लिंक: ${getBodyReportUrl(data.phone_number || data.mobile || '')}`;
 }
 
 export async function generateBodyAnalysisSummary(data: any, isNewLead: boolean): Promise<string> {
@@ -144,7 +155,7 @@ BMI: ${data.bmi} ([Accurate BMI Category in Hindi] श्रेणी)
 * विसरल फैट ${data.visceral_fat} से घटाकर सुरक्षित सीमा (8 या उससे कम) में लाना।
 * मसल मास बढ़ाकर मेटाबॉलिज्म और बॉडी एज में सुधार करना।
 
-🔗 विस्तृत रिपोर्ट लिंक: http://localhost:5173/report?phone=${encodeURIComponent(data.phone_number || data.mobile || '')}
+🔗 विस्तृत रिपोर्ट लिंक: ${getBodyReportUrl(data.phone_number || data.mobile || '')}
 `;
 
     const response = await ai.models.generateContent({

@@ -8,7 +8,6 @@ const mobileTablePages = [
   'OrdersPaymentsPage.tsx',
   'RevenueProfitPage.tsx',
   'CampaignsPage.tsx',
-  'SettingsPage.tsx',
   'CustomerDetailPage.tsx',
 ];
 

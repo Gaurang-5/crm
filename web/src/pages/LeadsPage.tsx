@@ -111,32 +111,20 @@ export function LeadsPage() {
             <span className="search-input__icon"></span>
             <input
               type="text"
-              placeholder="Search by name, phone, or goal..."
+              aria-label="Search people"
+              placeholder="Search name, phone, or goal"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="form-input"
             />
           </div>
 
-          {/* Stage Filter Tabs */}
-          <div className="people-stage-filter" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <span className="text-secondary" style={{ fontWeight: 600, whiteSpace: 'nowrap', fontSize: 'var(--font-size-sm)' }}>Progress:</span>
-            <button
-              onClick={() => setStageFilter('ALL')}
-              className={`tab-btn${stageFilter === 'ALL' ? ' active' : ''}`}
-            >
-              All ({leads.length})
-            </button>
-            {stages.map((st) => (
-              <button
-                key={st.code}
-                onClick={() => setStageFilter(st.code)}
-                className={`tab-btn${stageFilter === st.code ? ' active' : ''}`}
-              >
-                {st.name} ({leads.filter((l) => l.funnel_state === st.code).length})
-              </button>
-            ))}
-          </div>
+          <label className="people-progress-select">Progress
+            <select className="form-select" value={stageFilter} onChange={e => setStageFilter(e.target.value)}>
+              <option value="ALL">All people ({leads.length})</option>
+              {stages.map(st => <option key={st.code} value={st.code}>{st.name} ({leads.filter(l => l.funnel_state === st.code).length})</option>)}
+            </select>
+          </label>
         </div>
       </div>
 

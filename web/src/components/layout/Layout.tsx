@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { api } from '../../api/client';
+import { Brand } from './Brand';
+import './crm-shell.css';
 import { Sidebar } from './Sidebar';
 import { MobileNav } from './MobileNav';
 import { useToast } from '../../hooks/useToast';
@@ -44,60 +46,11 @@ export function Layout() {
 
       {/* Main area */}
       <div className="page-content">
-        {/* Mobile Header */}
-        <header
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: 'var(--space-3) var(--space-4)',
-            background: 'rgba(255,255,255,0.85)',
-            backdropFilter: 'var(--blur-md)',
-            WebkitBackdropFilter: 'var(--blur-md)',
-            borderBottom: '1px solid var(--clr-border)',
-            zIndex: 'var(--z-header)' as any,
-            position: 'relative',
-          }}
-          className="mobile-header"
-        >
-          <style>{`
-            .mobile-header { display: flex; }
-            @media (min-width: 1024px) { .mobile-header { display: none !important; } }
-          `}</style>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <span
-                style={{
-                  fontSize: 'var(--font-size-base)',
-                  fontWeight: 800,
-                  color: 'var(--clr-brand)',
-                  textTransform: 'uppercase',
-                  letterSpacing: 'var(--tracking-heading)',
-                }}
-              >
-              Lifestyle Mantra
-              </span>
-            </div>
-          </div>
-
-          <div
-            style={{
-              width: 34,
-              height: 34,
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--clr-neutral-bg)',
-              border: '1px solid var(--clr-border)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 700,
-              fontSize: 'var(--font-size-sm)',
-              color: 'var(--clr-brand)',
-            }}
-          >
-            {coach.name?.charAt(0)?.toUpperCase() ?? 'C'}
-          </div>
+        <header className="crm-topbar">
+          <div className="crm-mobile-brand"><Brand /></div>
+          <div className="crm-workspace-label">Your wellness workspace</div>
+          <a className="crm-website-link" href="/" target="_blank" rel="noreferrer">View website ↗</a>
+          <span className="crm-avatar" aria-label={coach.name}>{coach.name?.charAt(0)?.toUpperCase() || 'C'}</span>
         </header>
 
         {/* Mobile Navigation Drawer */}
@@ -111,7 +64,7 @@ export function Layout() {
 
         {/* Page Content */}
         <main className="page-main">
-          <div className="page-section">
+          <div className={`page-section${location.pathname === "/crm/pipeline" || location.pathname === "/crm/meetings" ? " page-section-wide" : ""}`}>
             <Outlet />
           </div>
         </main>

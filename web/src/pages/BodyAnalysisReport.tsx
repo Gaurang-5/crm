@@ -17,7 +17,10 @@ export function BodyAnalysisReport() {
       return;
     }
     fetch(`${BASE_URL}/api/body-analyses?phone=${encodeURIComponent(phone)}`)
-      .then((r) => r.json())
+      .then(async (r) => {
+        if (!r.ok) throw new Error('Could not load the report. Please try again shortly.');
+        return r.json();
+      })
       .then((data) => {
         const list = Array.isArray(data) ? data : [];
         if (list.length === 0) {
@@ -82,7 +85,7 @@ export function BodyAnalysisReport() {
             <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', margin: '0 0 8px' }}>Report Not Found</h2>
             <p style={{ color: '#64748b', fontSize: 14, lineHeight: 1.5, margin: '0 0 20px' }}>{error || 'No evaluation record found for this mobile number.'}</p>
             <a
-              href="https://wa.me/919876543210?text=Hi%20Coach%20Deepa,%20I%20would%20like%20to%20get%20my%20Body%20Analysis%20report"
+              href="https://wa.me/919897258859?text=Hi%20Coach%20Deepa,%20I%20would%20like%20to%20get%20my%20Body%20Analysis%20report"
               target="_blank"
               rel="noopener noreferrer"
               style={styles.btnPrimary}
@@ -218,7 +221,7 @@ BMI: ${latest.bmi} (${bmiCat} श्रेणी)
         <p style={{ margin: 0, fontSize: 13, color: '#64748b' }}>Connect with Coach Deepa Bhatia for your customized meal plan and daily guidance.</p>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginTop: 4 }}>
           <a
-            href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi Coach Deepa, I reviewed my Body Analysis report (${latest.name}, Weight: ${latest.weight_kg}kg, Body Fat: ${latest.body_fat_pct}%). I would like to schedule my consultation.`)}`}
+            href={`https://wa.me/919897258859?text=${encodeURIComponent(`Hi Coach Deepa, I reviewed my Body Analysis report (${latest.name}, Weight: ${latest.weight_kg}kg, Body Fat: ${latest.body_fat_pct}%). I would like to schedule my consultation.`)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={styles.btnPrimary}

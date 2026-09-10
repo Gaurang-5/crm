@@ -1,3 +1,4 @@
+import { Brand } from '../components/layout/Brand';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -60,45 +61,10 @@ export function Login() {
           animation: 'modal-in 400ms var(--ease-spring)',
         }}
       >
-        {/* Brand */}
-        <div style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 'var(--radius-xl)',
-              background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
-              border: '2px solid var(--clr-brand-border)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.75rem',
-              margin: '0 auto var(--space-4)',
-              boxShadow: '0 4px 16px 0 rgb(22 163 74 / 0.2)',
-            }}
-          >
-            
-          </div>
-          <h1
-            style={{
-              fontSize: 'var(--font-size-2xl)',
-              fontWeight: 800,
-              color: 'var(--clr-text-primary)',
-              letterSpacing: 'var(--tracking-heading)',
-              marginBottom: 'var(--space-1)',
-            }}
-          >
-            Wellness CRM
-          </h1>
-          <p
-            style={{
-              fontSize: 'var(--font-size-sm)',
-              color: 'var(--clr-text-tertiary)',
-              fontWeight: 500,
-            }}
-          >
-            Coach Operating System · Login
-          </p>
+        <div className="crm-login-brand">
+          <Brand />
+          <h1>Welcome back.</h1>
+          <p>Sign in to your wellness workspace.</p>
         </div>
 
         {/* Error */}

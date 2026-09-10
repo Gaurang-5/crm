@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiRequest } from "../api/client";
 import "./meetings.css";
@@ -15,7 +15,7 @@ const time = (value: string) =>
     dateStyle: "medium",
     timeStyle: "short",
   });
-type MeetingLink = {
+export type MeetingLink = {
   id: string;
   destination_url: string;
   status: string;
@@ -26,6 +26,67 @@ type MeetingLink = {
   meeting_id: string;
   passcode: string;
 };
+
+type ActivityPreset = "today" | "7d" | "30d" | "all" | "custom";
+
+const dateInputValue = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const readableDate = (value: string) =>
+  new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${value}T12:00:00`));
+
+export function activityDateRange(
+  preset: Exclude<ActivityPreset, "custom">,
+  now = new Date(),
+) {
+  if (preset === "all") {
+    return { from: "", to: "", label: "All recorded activity" };
+  }
+  const days = preset === "today" ? 1 : preset === "7d" ? 7 : 30;
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  start.setDate(start.getDate() - (days - 1));
+  const from = dateInputValue(start);
+  const to = dateInputValue(now);
+  const fromLabel = readableDate(from);
+  const toLabel = readableDate(to);
+  const sameMonth = from.slice(0, 7) === to.slice(0, 7);
+  const label = preset === "today"
+    ? `Today · ${toLabel}`
+    : sameMonth
+      ? `${start.getDate()}–${toLabel}`
+      : `${fromLabel}–${toLabel}`;
+  return { from, to, label };
+}
+
+export function buildInvitationMessage(active: MeetingLink, publicUrl: string) {
+  return [
+    "*Lifestyle Mantra*",
+    "_You’re invited to a wellness session._",
+    "",
+    `*Topic:* ${active.topic}`,
+    `*Date:* ${active.meeting_date}`,
+    `*Time:* ${active.meeting_time}`,
+    "",
+    "*Join the session here:*",
+    publicUrl,
+    "",
+    "We look forward to seeing you!",
+    "_Wellness, every day._",
+  ].join("\n");
+}
+
+export const funnelPercent = (value: number, previous: number) =>
+  previous > 0 ? Math.round((value / previous) * 100) : 0;
+
+const DEFAULT_ACTIVITY_RANGE = activityDateRange("7d");
 type Visit = {
   id: string;
   draft_name: string;
@@ -63,8 +124,8 @@ export function MeetingTrackerPage() {
     [passcode, setPasscode] = useState(""),
     [search, setSearch] = useState(""),
     [status, setStatus] = useState(""),
-    [from, setFrom] = useState(""),
-    [to, setTo] = useState("");
+    [from, setFrom] = useState(DEFAULT_ACTIVITY_RANGE.from),
+    [to, setTo] = useState(DEFAULT_ACTIVITY_RANGE.to);
   const [busy, setBusy] = useState(false),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(""),
@@ -72,10 +133,65 @@ export function MeetingTrackerPage() {
     [detail, setDetail] = useState<any>(null),
     [total, setTotal] = useState(0),
     [page, setPage] = useState(0);
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [view, setView] = useState<"meeting" | "editor" | "activity">("meeting");
+  const [manualOpen, setManualOpen] = useState(false);
+  const [activityPreset, setActivityPreset] = useState<ActivityPreset>("7d");
+  const [activityRangeLabel, setActivityRangeLabel] = useState(
+    DEFAULT_ACTIVITY_RANGE.label,
+  );
   const generation = useRef(0),
     closeButton = useRef<HTMLButtonElement>(null);
   const publicUrl = `${location.origin}/join`;
   const active = links.find((l) => l.status === "ACTIVE");
+  const invitationMessage = active
+    ? buildInvitationMessage(active, publicUrl)
+    : "";
+  const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(invitationMessage)}`;
+  const displayedVisits = useMemo(
+    () =>
+      [...visits].sort((a, b) => {
+        const namedDifference = Number(Boolean(b.draft_name)) - Number(Boolean(a.draft_name));
+        if (namedDifference) return namedDifference;
+        return new Date(b.first_seen_at).getTime() - new Date(a.first_seen_at).getTime();
+      }),
+    [visits],
+  );
+
+  function selectActivityRange(preset: Exclude<ActivityPreset, "custom">) {
+    const range = activityDateRange(preset);
+    setActivityPreset(preset);
+    setActivityRangeLabel(range.label);
+    setFrom(range.from);
+    setTo(range.to);
+    setPage(0);
+  }
+
+  function selectCustomDate(nextFrom: string, nextTo: string) {
+    setActivityPreset("custom");
+    setActivityRangeLabel(
+      nextFrom && nextTo
+        ? `${readableDate(nextFrom)}–${readableDate(nextTo)}`
+        : "Custom date range",
+    );
+    setFrom(nextFrom);
+    setTo(nextTo);
+    setPage(0);
+  }
+  function switchView(next: "meeting" | "editor" | "activity") {
+    if (next === "editor" && active && !url && !message) {
+      setUrl(active.destination_url);
+      setTopic(active.topic);
+      setMeetingDate(active.meeting_date);
+      setMeetingTime(active.meeting_time);
+      setMeetingId(active.meeting_id || "");
+      setPasscode(active.passcode || "");
+    }
+    if (next === "editor" && active) setManualOpen(true);
+    setView(next);
+    setEditorOpen(next === "editor");
+    requestAnimationFrame(() => document.querySelector('.page-main')?.scrollTo({ top: 0 }));
+  }
   async function refresh() {
     const current = ++generation.current;
     setLoading(true);
@@ -112,6 +228,7 @@ export function MeetingTrackerPage() {
   }, [detail]);
   function parseMessage() {
     const parsed = parseWhatsAppMeeting(message);
+    setManualOpen(true);
     setTopic(parsed.topic);
     setMeetingDate(parsed.date);
     setMeetingTime(parsed.time);
@@ -141,6 +258,9 @@ export function MeetingTrackerPage() {
       );
       setUrl("");
       setMessage("");
+      setEditorOpen(false);
+      setView("meeting");
+      setManualOpen(false);
       setNotice(
         id
           ? "The session link is paused."
@@ -153,14 +273,6 @@ export function MeetingTrackerPage() {
       setBusy(false);
     }
   }
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(publicUrl);
-      setNotice("Public join link copied. Ready to paste into WhatsApp.");
-    } catch {
-      setNotice(`Copy this link: ${publicUrl}`);
-    }
-  }
   async function inspect(id: string) {
     try {
       setDetail(await apiRequest(`/api/meetings/visits/${id}`));
@@ -169,26 +281,16 @@ export function MeetingTrackerPage() {
     }
   }
   return (
-    <div className="tracker">
+    <div className={`tracker tracker-view-${view}`}>
       <header className="tracker-header">
         <div>
           <h1>Zoom Invitations</h1>
           <p>Paste the meeting message, share one link, and see who responded.</p>
         </div>
-        <div className="tracker-controls">
-          <a
-            className="tracker-button"
-            href="/join"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Preview join page ↗
-          </a>
-          <button className="tracker-button primary" onClick={copy}>
-            Copy invitation link
-          </button>
-        </div>
       </header>
+      <nav className="invitation-view-nav" aria-label="Invitation sections">
+        {([['meeting', 'Meeting & share'], ['editor', 'Edit invitation'], ['activity', 'Visitor activity']] as const).map(([key, label]) => <button type="button" key={key} aria-current={view === key ? 'page' : undefined} onClick={() => switchView(key)}>{label}</button>)}
+      </nav>
       {error && (
         <div role="alert" className="meeting-error">
           {error} <button onClick={refresh}>Retry</button>
@@ -199,20 +301,23 @@ export function MeetingTrackerPage() {
           {notice}
         </div>
       )}
-      <section className="tracker-panel">
-        <h2>Meeting details</h2>
-        <p>
-          Share <a href={publicUrl}>{publicUrl}</a> in your WhatsApp groups.
-          Paste the message below whenever the meeting changes.
-        </p>
-        <p className="tracker-link">
-          <strong>
-            {active ? "Current Zoom meeting" : "No meeting published yet"}
-          </strong>
-          <br />
-          {active?.destination_url ||
-            "Paste a WhatsApp meeting message below to begin."}
-        </p>
+      <div className="invitation-workbench" hidden={view === "activity"}>
+      <section className="session-overview" hidden={view !== "meeting"}>
+        <div className="session-overview-top"><span className="session-state">{active ? '● Invitation is live' : '○ No active meeting'}</span><span>ZOOM SESSION</span></div>
+        <h2>{active?.topic || 'Your next gathering starts here.'}</h2>
+        <div className="session-overview-meta"><div><span>Date</span><strong>{active?.meeting_date || 'Set a date'}</strong></div><div><span>Time</span><strong>{active?.meeting_time || 'Set a time'}</strong></div></div>
+        <div className="session-share"><label htmlFor="invitation-share-url">Your invitation link</label><input id="invitation-share-url" readOnly value={publicUrl}/><p>The same invitation link works whenever you update the meeting.</p></div>
+        {active && <details className="whatsapp-message-preview"><summary>Preview WhatsApp invitation</summary><pre>{invitationMessage}</pre></details>}
+        <div className="session-overview-actions">
+          {active && <a className="tracker-button primary whatsapp-share-button" href={whatsappShareUrl} target="_blank" rel="noreferrer">Share on WhatsApp ↗</a>}
+          <button type="button" className="tracker-button" onClick={() => switchView("editor")}>{active ? 'Update meeting' : 'Create invitation'}</button>
+          <a href="/join" target="_blank" rel="noreferrer" className="tracker-button">Preview join page ↗</a>
+          {active && <button type="button" className="tracker-button" disabled={busy} onClick={() => change(undefined, active.id)}>Pause link</button>}
+        </div>
+        <details className="session-technical"><summary>Zoom connection details</summary><p className="tracker-link">{active?.destination_url || 'No meeting published yet'}</p><p>Meeting ID: {active?.meeting_id || '—'} · Passcode: {active?.passcode || '—'}</p></details>
+      </section>
+      <section className={`tracker-panel session-editor${editorOpen ? ' is-open' : ''}`} hidden={view !== "editor"}>
+        <header className="session-editor-heading"><span>01 / PREPARE YOUR INVITATION</span><h2>Paste. Check. Share.</h2><p>Start with the WhatsApp message. We’ll fill in the meeting details for you.</p></header>
         <div className="message-parser">
           <label>
             Paste the complete WhatsApp message
@@ -226,7 +331,9 @@ export function MeetingTrackerPage() {
             Read message
           </button>
         </div>
+        <button type="button" className="manual-toggle" aria-expanded={manualOpen} onClick={() => setManualOpen(!manualOpen)}>{manualOpen ? 'Hide meeting fields ↑' : 'Or enter meeting details manually →'}</button>
         <form
+          hidden={!manualOpen}
           className="tracker-session-form"
           onSubmit={(e) => {
             e.preventDefault();
@@ -268,16 +375,6 @@ export function MeetingTrackerPage() {
           <button className="tracker-button primary" disabled={busy}>
             {busy ? "Saving…" : "Save session"}
           </button>
-          {active && (
-            <button
-              type="button"
-              className="tracker-button"
-              disabled={busy}
-              onClick={() => change(undefined, active.id)}
-            >
-              Pause link
-            </button>
-          )}
           </div>
         </form>
         <details>
@@ -296,7 +393,37 @@ export function MeetingTrackerPage() {
           ))}
         </details>
       </section>
-      <section className="tracker-panel">
+      </div>
+      <div className="invitation-activity" hidden={view !== "activity"}>
+      <header className="activity-heading">
+        <div>
+          <span>02 / FOLLOW THE RESPONSE</span>
+          <h2>Invitation activity</h2>
+          <p>See how people moved from opening the invitation to opening Zoom.</p>
+        </div>
+        <div className="activity-range-summary">
+          <span>SHOWING</span>
+          <strong>{activityRangeLabel}</strong>
+        </div>
+      </header>
+      <nav className="activity-periods" aria-label="Activity date range">
+        {([
+          ["today", "Today"],
+          ["7d", "7 days"],
+          ["30d", "30 days"],
+          ["all", "All time"],
+        ] as const).map(([value, label]) => (
+          <button
+            type="button"
+            key={value}
+            aria-pressed={activityPreset === value}
+            onClick={() => selectActivityRange(value)}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+      <section className="tracker-panel visitor-filters">
         <div className="tracker-controls">
           <label>
             Search visitors
@@ -335,8 +462,7 @@ export function MeetingTrackerPage() {
               value={from}
               max={to || undefined}
               onChange={(e) => {
-                setFrom(e.target.value);
-                setPage(0);
+                selectCustomDate(e.target.value, to);
               }}
             />
           </label>
@@ -348,8 +474,7 @@ export function MeetingTrackerPage() {
               value={to}
               min={from || undefined}
               onChange={(e) => {
-                setTo(e.target.value);
-                setPage(0);
+                selectCustomDate(from, e.target.value);
               }}
             />
           </label>
@@ -358,19 +483,34 @@ export function MeetingTrackerPage() {
           </button>
         </div>
       </section>
-      <section className="tracker-metrics" aria-label="Visitor funnel">
-        {[
-          ["totalVisits", "Page visits"],
-          ["uniqueVisits", "Unique browsers"],
-          ["intentClicks", "Join clicks"],
-          ["registrations", "Registered"],
-          ["joinClicks", "Opened Zoom"],
-        ].map(([key, label]) => (
-          <div key={key}>
-            <span>{label}</span>
-            <strong>{loading ? "—" : (summary[key] ?? 0)}</strong>
-          </div>
-        ))}
+      <section className="activity-funnel-panel" aria-label="Visitor funnel">
+        <header>
+          <div><span>RESPONSE JOURNEY</span><h3>From invitation to Zoom</h3></div>
+          <div className="page-view-total"><span>Page views</span><strong>{loading ? "—" : (summary.totalVisits ?? 0)}</strong><small>Includes repeat opens</small></div>
+        </header>
+        <div className="activity-funnel">
+          {[
+            ["uniqueVisits", "Unique visitors", "Opened the invitation"],
+            ["intentClicks", "Join clicks", "Wanted to continue"],
+            ["registrations", "Details saved", "Shared their details"],
+            ["joinClicks", "Opened Zoom", "Pressed the final button"],
+          ].map(([key, label, description], index, steps) => {
+            const value = Number(summary[key] ?? 0);
+            const previous = index
+              ? Number(summary[steps[index - 1][0]] ?? 0)
+              : value;
+            return (
+              <div className="funnel-step" key={key}>
+                <span className="funnel-number">0{index + 1}</span>
+                <strong>{loading ? "—" : value}</strong>
+                <h4>{label}</h4>
+                <p>{description}</p>
+                <small>{index ? `${funnelPercent(value, previous)}% from previous step` : "Distinct browsers"}</small>
+              </div>
+            );
+          })}
+        </div>
+        <p className="activity-definition">“Opened Zoom” records the final button click. Zoom attendance itself is not available here.</p>
       </section>
       <section className="tracker-panel tracker-visitor-panel">
         <h2>Who responded</h2>
@@ -392,7 +532,7 @@ export function MeetingTrackerPage() {
             </thead>
             <tbody>
               {!loading &&
-                visits.map((v) => (
+                displayedVisits.map((v) => (
                   <tr key={v.id}>
                     <td data-label="Visitor">{v.draft_name || "Anonymous visitor"}</td>
                     <td data-label="Phone">{v.draft_phone || "Not provided"}</td>
@@ -444,6 +584,7 @@ export function MeetingTrackerPage() {
           </button>
         </div>
       </section>
+      </div>
       {detail && (
         <div className="tracker-modal" onClick={() => setDetail(null)}>
           <section

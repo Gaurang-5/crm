@@ -8,5 +8,5 @@ it("puts the three everyday coach tasks first", () => {
   expect(screen.getByRole("link", { name: /Start body analysis/i })).toHaveAttribute("href", "/crm/analyses");
   expect(screen.getByRole("link", { name: /Plan a home visit/i })).toHaveAttribute("href", "/crm/homevisit");
   expect(screen.getByRole("link", { name: /Create Zoom invitation/i })).toHaveAttribute("href", "/crm/meetings");
-  expect(screen.getByText("What would you like to do today?")).toBeInTheDocument();
+  expect(screen.getByRole("heading", { level: 1, name: /Wellness starts with a connection/i })).toBeInTheDocument();
 });

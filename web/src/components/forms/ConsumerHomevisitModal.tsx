@@ -1,3 +1,4 @@
+import { GuidedForm, SavingState } from './GuidedForm';
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
 import { useToast } from '../../hooks/useToast';
@@ -337,7 +338,7 @@ export function ConsumerHomevisitModal({ initialPhone = '', initialName = '', cu
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-6">
+        <GuidedForm onSubmit={handleSubmit} busy={submitting} steps={["General Information", "Health & Goals", "Routine & Diet"]}>
           <div className="card card-flat space-y-4">
             <h4 className="text-subheading border-b pb-1">General Information</h4>
 
@@ -501,7 +502,7 @@ export function ConsumerHomevisitModal({ initialPhone = '', initialName = '', cu
               {submitting ? 'Saving...' : 'Save Consumer Data'}
             </button>
           </div>
-        </form>
+        </GuidedForm>
       </div>
     </div>
   );

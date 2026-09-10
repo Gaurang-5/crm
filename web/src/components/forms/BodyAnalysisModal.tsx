@@ -1,3 +1,4 @@
+import { GuidedForm, SavingState } from './GuidedForm';
 import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
 import { useToast } from '../../hooks/useToast';
@@ -51,8 +52,6 @@ export function BodyAnalysisModal({
   const [wellnessConsultant, setWellnessConsultant] = useState('Coach Deepa');
 
   const [submitting, setSubmitting] = useState(false);
-  const [aiStep, setAiStep] = useState(0);
-  const [aiProgress, setAiProgress] = useState(15);
   const [sendingWa, setSendingWa] = useState(false);
   const [waSent, setWaSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,34 +62,6 @@ export function BodyAnalysisModal({
   const [savedAnalysis, setSavedAnalysis] = useState<any>(null);
 
   const toast = useToast();
-
-  // Progress animation ticker when AI report generation is active
-  useEffect(() => {
-    if (!submitting) return;
-    setAiStep(0);
-    setAiProgress(12);
-
-    const interval = setInterval(() => {
-      setAiProgress((prev) => {
-        if (prev < 35) {
-          setAiStep(0);
-          return prev + 6;
-        }
-        if (prev < 65) {
-          setAiStep(1);
-          return prev + 5;
-        }
-        if (prev < 90) {
-          setAiStep(2);
-          return prev + 3;
-        }
-        setAiStep(3);
-        return Math.min(prev + 1, 96);
-      });
-    }, 240);
-
-    return () => clearInterval(interval);
-  }, [submitting]);
 
   // Load draft from localStorage on mount if not in preview mode
   useEffect(() => {
@@ -241,8 +212,6 @@ export function BodyAnalysisModal({
 
       const res: any = await api.createBodyAnalysis(payload);
       if (res.success) {
-        setAiProgress(100);
-        setAiStep(4);
         // Smooth completion pause
         await new Promise((resolve) => setTimeout(resolve, 450));
 
@@ -391,165 +360,7 @@ export function BodyAnalysisModal({
 
         {/* --- VIEW 1: AI GENERATION IN PROGRESS ANIMATION --- */}
         {submitting ? (
-          <div
-            style={{
-              padding: 'var(--space-8) var(--space-6)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              minHeight: 460,
-            }}
-          >
-            {/* Glowing Dual-Ring Pulsing AI Orb */}
-            <div style={{ position: 'relative', width: 96, height: 96, marginBottom: 'var(--space-5)' }}>
-              {/* Outer rotating dashed ring */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: -8,
-                  borderRadius: '50%',
-                  border: '2px dashed rgba(15, 118, 110, 0.4)',
-                  animation: 'ai-orbit 8s linear infinite',
-                }}
-              />
-              {/* Inner counter-rotating ring */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: -2,
-                  borderRadius: '50%',
-                  border: '2px solid transparent',
-                  borderTopColor: '#0f766e',
-                  borderRightColor: '#14b8a6',
-                  animation: 'ai-orbit-reverse 3s linear infinite',
-                }}
-              />
-              {/* Central pulsing glowing core */}
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #0f766e 0%, #14b8a6 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  boxShadow: '0 0 28px rgba(15, 118, 110, 0.4)',
-                  animation: 'ai-pulse 2s ease-in-out infinite',
-                }}
-              >
-                <Icons.BodyAnalysis size={36} color="#ffffff" />
-              </div>
-            </div>
-
-            {/* Title & Stage Heading */}
-            <h3 style={{ margin: '0 0 var(--space-1) 0', fontSize: 'var(--font-size-lg)', fontWeight: 800, color: 'var(--clr-text-primary)' }}>
-              Generating Personalized AI Health Report
-            </h3>
-            <p style={{ margin: '0 0 var(--space-5) 0', fontSize: 'var(--font-size-sm)', color: 'var(--clr-text-secondary)', maxWidth: 460 }}>
-              Analyzing body composition metrics for <strong style={{ color: '#0f766e' }}>{name || 'Client'}</strong> with Google Gemini AI...
-            </p>
-
-            {/* Progress Bar Container */}
-            <div style={{ width: '100%', maxWidth: 480, marginBottom: 'var(--space-5)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--clr-text-secondary)', marginBottom: 6 }}>
-                <span>Evaluating Biomarkers</span>
-                <span style={{ color: '#0f766e' }}>{aiProgress}%</span>
-              </div>
-              <div style={{ width: '100%', height: 10, background: '#f1f5f9', borderRadius: 99, overflow: 'hidden', border: '1px solid var(--clr-border)', position: 'relative' }}>
-                <div
-                  style={{
-                    height: '100%',
-                    width: `${aiProgress}%`,
-                    background: 'linear-gradient(90deg, #0f766e 0%, #14b8a6 50%, #2dd4bf 100%)',
-                    borderRadius: 99,
-                    transition: 'width 0.25s ease-out',
-                    boxShadow: '0 0 12px rgba(20, 184, 166, 0.6)',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Live Step Progress Checklist */}
-            <div
-              style={{
-                width: '100%',
-                maxWidth: 480,
-                background: 'var(--clr-neutral-bg)',
-                border: '1px solid var(--clr-border)',
-                borderRadius: 'var(--radius-lg)',
-                padding: 'var(--space-3) var(--space-4)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--space-2)',
-                textAlign: 'left',
-              }}
-            >
-              {[
-                { label: 'Computing BMI, Body Fat & Visceral Fat categories', desc: `BMI: ${bmi || '—'} • Body Fat: ${bodyFatPct || '—'}% • Visceral: ${visceralFat || '—'}` },
-                { label: 'Assessing Metabolic Health & Muscle vs Fat Distribution', desc: `Body Age: ${bodyAge || '—'}y • Skeletal Muscle: ${skeletalMusclePct || '—'}%` },
-                { label: 'Google Gemini 3.6 Flash composing Hindi Coaching Report', desc: 'Crafting tailored nutrition, workout & lifestyle tips' },
-                { label: 'Formatting WhatsApp summary & persisting to database', desc: 'Structuring WhatsApp dispatch message & shareable report link' },
-              ].map((step, idx) => {
-                const isComplete = aiStep > idx || aiProgress === 100;
-                const isCurrent = aiStep === idx && aiProgress < 100;
-
-                return (
-                  <div
-                    key={idx}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--space-3)',
-                      padding: 'var(--space-2)',
-                      borderRadius: 'var(--radius-md)',
-                      background: isCurrent ? '#ffffff' : 'transparent',
-                      border: isCurrent ? '1px solid var(--clr-border)' : '1px solid transparent',
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 22,
-                        height: 22,
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 11,
-                        fontWeight: 700,
-                        flexShrink: 0,
-                        background: isComplete ? '#0f766e' : isCurrent ? '#ccfbf1' : '#e2e8f0',
-                        color: isComplete ? '#ffffff' : isCurrent ? '#0f766e' : '#94a3b8',
-                        border: isCurrent ? '2px solid #0f766e' : 'none',
-                        animation: isCurrent ? 'pulse-dot 1.5s infinite' : 'none',
-                      }}
-                    >
-                      {isComplete ? '✓' : idx + 1}
-                    </div>
-
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: isCurrent ? 700 : isComplete ? 600 : 500, color: isCurrent ? 'var(--clr-text-primary)' : isComplete ? '#0f766e' : 'var(--clr-text-tertiary)' }}>
-                        {step.label}
-                      </div>
-                      {isCurrent && (
-                        <div style={{ fontSize: '0.7rem', color: 'var(--clr-text-tertiary)', marginTop: 1 }}>
-                          {step.desc}
-                        </div>
-                      )}
-                    </div>
-
-                    {isCurrent && (
-                      <div style={{ width: 14, height: 14, border: '2px solid #0f766e', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <SavingState report />
         ) : generatedReport ? (
           <div className="p-4 space-y-5">
             <div className="alert alert-success" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -641,7 +452,7 @@ export function BodyAnalysisModal({
           </div>
         ) : (
           /* --- VIEW 2: FORM ENTRY --- */
-          <form onSubmit={handleSubmit} className="p-4 space-y-6">
+          <GuidedForm onSubmit={handleSubmit} busy={submitting} steps={["Personal Details", "Body Composition Readings"]}>
             <div className="card card-flat space-y-4">
               <h4 className="text-subheading border-b pb-1">Personal Details</h4>
 
@@ -834,7 +645,7 @@ export function BodyAnalysisModal({
                 {submitting ? 'Generating AI Report...' : 'Generate AI Report & Save'}
               </button>
             </div>
-          </form>
+          </GuidedForm>
         )}
       </div>
     </div>

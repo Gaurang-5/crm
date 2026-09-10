@@ -77,7 +77,7 @@ BMI: ${item.bmi} (${bmiCat} श्रेणी)
 - 30–45 मिनट नियमित वर्कआउट करें।
 - पर्याप्त पानी पिएँ और अच्छी नींद लें।
 
-विस्तृत रिपोर्ट लिंक: http://localhost:5173/report?phone=${encodeURIComponent(item.phone_number || '')}`;
+विस्तृत रिपोर्ट लिंक: ${window.location.origin}/report?phone=${encodeURIComponent(item.phone_number || '')}`;
     }
 
     setPreviewReport({

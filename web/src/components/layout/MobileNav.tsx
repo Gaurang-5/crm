@@ -21,7 +21,6 @@ const moreTools = [
   { path: "/crm/revenue", label: "Money", icon: <Icons.Revenue /> },
   { path: "/crm/campaigns", label: "Group Messages", icon: <Icons.Message /> },
   { path: "/crm/reports", label: "Reports", icon: <Icons.Reports /> },
-  { path: "/crm/settings", label: "Settings", icon: <Icons.Settings /> },
 ];
 
 export function MobileNav({ open, coach, onClose, onOpen, onLogout }: MobileNavProps) {

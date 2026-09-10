@@ -18,7 +18,6 @@ import { OrdersPaymentsPage } from './pages/OrdersPaymentsPage';
 import { RevenueProfitPage } from './pages/RevenueProfitPage';
 import { CampaignsPage } from './pages/CampaignsPage';
 import { ReportsPage } from './pages/ReportsPage';
-import { SettingsPage } from './pages/SettingsPage';
 import { BodyAnalysisPage } from './pages/BodyAnalysisPage';
 import { ConsumerHomevisitPage } from './pages/ConsumerHomevisitPage';
 import { BodyAnalysisReport } from './pages/BodyAnalysisReport';
@@ -60,7 +59,7 @@ export function App() {
           <Route path="revenue" element={<RevenueProfitPage />} />
           <Route path="campaigns" element={<CampaignsPage />} />
           <Route path="reports" element={<ReportsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          <Route path="settings" element={<Navigate to="/crm" replace />} />
           <Route path="*" element={<Navigate to="/crm/today" replace />} />
         </Route>
       </Routes>
